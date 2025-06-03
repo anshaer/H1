@@ -136,61 +136,107 @@
         }
 
         /* --- 響應式設計 --- */
-        @media (max-width: 768px) {
-            /* 手機和平板的調整 */
+        /* 針對小螢幕裝置 (手機直屏) */
+        @media (max-width: 768px) and (orientation: portrait) {
             .data-display-area {
                 flex-direction: column; /* 堆疊排列 */
-                justify-content: flex-start;
                 align-items: center; /* 內容置中 */
-                min-height: auto; /* 高度自動調整 */
+                min-height: auto;
                 padding: 5px;
             }
 
             .image-container {
-                width: 90%; /* 圖片在手機上可以佔更多寬度 */
-                margin-bottom: 20px; /* 圖片下方留出空間給標題和圖示 */
-                justify-content: center; /* 圖片在手機上置中 */
+                width: 90%; /* 圖片容器在手機直屏下佔用較多寬度 */
+                margin-bottom: 20px;
+                justify-content: center; /* 圖片置中 */
             }
 
             .image-container img {
-                max-width: 100%; /* 在手機上，圖片容器已是90%，這裡讓圖片佔滿容器 */
+                max-width: 100%; /* 圖片在這個容器內佔滿 */
                 max-height: 100%;
             }
 
-            .title-floating-box {
-                position: static; /* 標題恢復文件流，不再浮動定位 */
-                transform: none; /* 移除定位轉換 */
-                margin-bottom: 20px; /* 標題下方間距 */
-                width: auto; /* 寬度自動 */
-                font-size: 1.2em; /* 縮小字體 */
+            .title-floating-box, .interaction-icons {
+                position: static;
+                transform: none;
+                margin-bottom: 20px;
+                width: auto;
+                font-size: 1.2em;
                 padding: 10px 15px;
             }
 
             .interaction-icons {
-                position: static; /* 圖示恢復文件流 */
-                transform: none; /* 移除定位轉換 */
                 width: 100%;
-                justify-content: center; /* 圖示水平置中 */
-                gap: 10px; /* 縮小間距 */
-                margin-bottom: 20px;
+                justify-content: center;
+                gap: 10px;
             }
 
             .icon-item img {
-                width: 30px; /* 縮小圖示 */
+                width: 30px;
                 height: 30px;
             }
-
             .icon-item {
-                font-size: 0.7em; /* 縮小文字 */
-            }
-
-            .popup {
-                padding: 15px;
+                font-size: 0.7em;
             }
         }
 
+        /* 針對小螢幕裝置 (手機橫屏) */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .data-display-area {
+                flex-direction: row; /* 在橫屏時改為左右並排 */
+                justify-content: space-around; /* 內容分散對齊 */
+                align-items: center;
+                min-height: 95vh; /* 確保能佔用更多垂直空間 */
+                padding: 10px;
+            }
+
+            .image-container {
+                width: 45%; /* 圖片容器佔用資料區塊約一半的寬度 */
+                height: 90%; /* 圖片容器佔用資料區塊約90%的高度 */
+                justify-content: flex-start; /* 靠左對齊 */
+            }
+
+            .image-container img {
+                max-width: 100%; /* 圖片佔滿其容器的寬度 */
+                max-height: 100%; /* 圖片佔滿其容器的高度 */
+                object-fit: contain; /* 確保不裁切並等比縮放 */
+            }
+
+            .title-floating-box {
+                position: static; /* 恢復文件流 */
+                transform: none; /* 移除絕對定位的轉換 */
+                margin-left: 20px; /* 與圖片拉開一些距離 */
+                margin-bottom: 10px; /* 與下方圖示間隔 */
+                font-size: 1.4em; /* 稍微放大 */
+                padding: 10px 20px;
+            }
+
+            .interaction-icons {
+                position: static; /* 恢復文件流 */
+                transform: none;
+                margin-left: 20px; /* 與圖片拉開一些距離 */
+                width: auto; /* 自動寬度 */
+                flex-wrap: wrap; /* 允許換行 */
+                justify-content: flex-start; /* 靠左對齊 */
+                gap: 15px;
+            }
+
+            .icon-item img {
+                width: 35px;
+                height: 35px;
+            }
+            .icon-item {
+                font-size: 0.8em;
+            }
+
+            .popup {
+                max-width: 80vw;
+                max-height: 80vh;
+            }
+        }
+
+        /* 針對桌面版 (螢幕寬度大於768px) */
         @media (min-width: 769px) {
-            /* 桌面版調整 */
             .data-display-area {
                 flex-direction: row; /* 圖片和文字並排 */
                 justify-content: space-between; /* 內容分散對齊 */
@@ -201,6 +247,11 @@
             .image-container {
                 width: 50%; /* 圖片容器佔一半寬度 */
                 justify-content: flex-start; /* 圖片靠左對齊 */
+            }
+
+            .image-container img {
+                max-width: 90%; /* 長寬不超過其容器的90% */
+                max-height: 90%; /* 長寬不超過其容器的90% */
             }
 
             .title-floating-box {

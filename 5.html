@@ -1,144 +1,179 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <title>展示頁面</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background-color: #77d4ab;
-      height: 100%;
-      font-family: sans-serif;
-    }
-    .container {
-      width: 95%;
-      height: 95%;
-      margin: auto;
-      margin-top: 2.5%;
-      position: relative;
-      background: transparent;
-      border: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .image-area {
-      position: absolute;
-      right: 50%;
-      top: 50%;
-      transform: translateY(-50%);
-      max-width: 87.5%;
-      max-height: 87.5%;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-    }
-    .image-area img {
-      max-height: 175%;
-      max-width: 100%;
-      object-fit: contain;
-    }
-    .info-area {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translateY(-50%);
-      padding-left: 2ch;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 20px;
-    }
-    .title {
-      font-size: 2em;
-      background-color: rgba(255, 255, 255, 0.95);
-      padding: 10px 20px;
-      border-radius: 10px;
-      box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-    }
-    .icons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .icon-button {
-      background-color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
-      transition: transform 0.2s;
-    }
-    .icon-button:hover {
-      transform: scale(1.1);
-    }
-    .popup {
-      position: absolute;
-      top: 70%;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: white;
-      border: 1px solid #ccc;
-      padding: 10px 15px;
-      border-radius: 8px;
-      display: none;
-      box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-      white-space: pre-wrap;
-      z-index: 1000;
-    }
-    .popup a {
-      display: block;
-      margin-bottom: 5px;
-      text-decoration: none;
-      color: #333;
-    }
-    .popup a:hover {
-      text-decoration: underline;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>網頁編輯範例</title>
+    <style>
+        body {
+            background-color: #77d4ab; /* 1. 頁面背景 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* 防止滾動條 */
+        }
+
+        .data-display-area {
+            width: 95%; /* 2. 資料顯示區塊寬度 */
+            max-width: 1200px; /* 可選：限制最大寬度以保持排版 */
+            height: 95vh; /* 2. 資料顯示區塊高度 */
+            border: 2px solid transparent; /* 2. 邊框透明 */
+            background-color: transparent; /* 2. 背景透明 */
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* 隱藏超出部分的內容 */
+        }
+
+        .image-container {
+            position: absolute;
+            right: 0; /* 圖片右側貼齊資料顯示區中線 (這裡是指資料顯示區的右側) */
+            top: 50%; /* 上下置中 */
+            transform: translateY(-50%);
+            width: 50%; /* 圖片佔據資料顯示區右半邊 */
+            display: flex;
+            justify-content: flex-end; /* 將圖片靠右對齊 */
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .data-image {
+            max-width: 175%; /* 3. 圖片等比縮放，最大175% */
+            height: auto; /* 保持圖片等比 */
+            display: block;
+            object-fit: contain; /* 確保圖片完全顯示且等比 */
+        }
+
+        .title-float {
+            position: absolute;
+            left: calc(50% + 2ch); /* 4. 標題左側與資料顯示區中線間隔2個字符 */
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.8); /* 浮動磚背景 */
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            text-align: center;
+        }
+
+        .title-float h1 {
+            margin: 0;
+            color: #333;
+            font-size: 2.5em;
+        }
+
+        .interactive-icons {
+            position: absolute;
+            left: calc(50% + 2ch); /* 與標題左側對齊 */
+            top: calc(50% + 80px); /* 在標題下方，可調整此值 */
+            transform: translateY(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column; /* 垂直排列 */
+            gap: 15px; /* 圖標間距 */
+        }
+
+        .icon-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+            text-decoration: none; /* For links */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* 浮動磚彈出視窗樣式 */
+        .popup {
+            display: none; /* 預設隱藏 */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            text-align: center;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .popup-close:hover {
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <!-- 圖片區 -->
-    <div class="image-area">
-      <img src="2.jpg" alt="展示圖片">
+    <div class="data-display-area">
+        <div class="image-container">
+            <img src="2.jpg" alt="資料圖片" class="data-image">
+        </div>
+
+        <div class="title-float">
+            <h1>我的網頁標題</h1>
+        </div>
+
+        <div class="interactive-icons">
+            <button class="icon-button" onclick="openPopup('textPopup')">文字敘述</button>
+            <a href="https://www.youtube.com/watch?v=your_youtube_video_id" target="_blank" class="icon-button">YT連結</a>
+            <button class="icon-button" onclick="openPopup('socialPopup')">社群連結</button>
+            <button class="icon-button" onclick="openPopup('otherLinksPopup')">其他連結</button>
+        </div>
     </div>
 
-    <!-- 資訊區 -->
-    <div class="info-area">
-      <div class="title">這是標題</div>
-      <div class="icons">
-        <button class="icon-button" onclick="togglePopup('desc')">📄</button>
-        <button class="icon-button" onclick="window.open('https://youtube.com/yourvideo', '_blank')">▶️</button>
-        <button class="icon-button" onclick="togglePopup('social')">🌐</button>
-        <button class="icon-button" onclick="togglePopup('other')">🔗</button>
-      </div>
+    <div id="textPopup" class="popup">
+        <span class="popup-close" onclick="closePopup('textPopup')">&times;</span>
+        <h2>文字敘述</h2>
+        <p>這是彈出的文字敘述內容。</p>
     </div>
 
-    <!-- 彈出浮磚 -->
-    <div id="desc" class="popup">這是文字敘述的內容。</div>
-    <div id="social" class="popup">
-      <a href="https://twitter.com" target="_blank">Twitter</a>
-      <a href="https://facebook.com" target="_blank">Facebook</a>
-      <a href="https://instagram.com" target="_blank">Instagram</a>
+    <div id="socialPopup" class="popup">
+        <span class="popup-close" onclick="closePopup('socialPopup')">&times;</span>
+        <h2>社群連結</h2>
+        <p><a href="https://twitter.com/your_profile" target="_blank">Twitter</a></p>
+        <p><a href="https://facebook.com/your_profile" target="_blank">Facebook</a></p>
+        <p><a href="https://instagram.com/your_profile" target="_blank">Instagram</a></p>
     </div>
-    <div id="other" class="popup">
-      <a href="#">其他連結 1</a>
-      <a href="#">其他連結 2</a>
-    </div>
-  </div>
 
-  <script>
-    function togglePopup(id) {
-      const popup = document.getElementById(id);
-      const allPopups = document.querySelectorAll('.popup');
-      allPopups.forEach(p => {
-        if (p !== popup) p.style.display = 'none';
-      });
-      popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
-    }
-  </script>
+    <div id="otherLinksPopup" class="popup">
+        <span class="popup-close" onclick="closePopup('otherLinksPopup')">&times;</span>
+        <h2>其他連結</h2>
+        <p><a href="https://example.com/link1" target="_blank">連結一</a></p>
+        <p><a href="https://example.com/link2" target="_blank">連結二</a></p>
+        <p><a href="https://example.com/link3" target="_blank">連結三</a></p>
+    </div>
+
+    <script>
+        function openPopup(popupId) {
+            document.getElementById(popupId).style.display = 'block';
+        }
+
+        function closePopup(popupId) {
+            document.getElementById(popupId).style.display = 'none';
+        }
+    </script>
 </body>
 </html>

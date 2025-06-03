@@ -16,29 +16,34 @@
             --transition-speed: 0.3s ease;
         }
 
+        html, body {
+            height: 100%; /* 確保 html 和 body 佔滿整個視窗高度 */
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
             background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
             color: var(--text-color);
             text-align: center;
-            overflow: hidden; /* 防止滾動條 */
+            overflow: auto; /* 允許滾動條出現，避免內容被裁切 */
             position: relative;
         }
 
+        /* 內容容器 - 橫屏時會是左右分欄，縱屏時會是上下堆疊 */
         .content-wrapper {
             display: flex;
             flex-direction: column; /* 預設縱向堆疊 */
             align-items: center;
             justify-content: center;
             width: 100%;
-            min-height: 100vh;
+            min-height: 100vh; /* 確保內容佔滿頁面，但會被 padding 影響 */
             box-sizing: border-box;
-            padding: 20px;
+            padding: 20px; /* 全頁面但還是留點邊距 */
         }
 
         /* 頭像區域 */
@@ -46,8 +51,7 @@
             margin-bottom: 30px; /* 縱向時頭像下方的間距 */
             width: 80%; /* 縱向時佔據容器寬度 */
             max-width: 300px; /* 限制最大寬度 */
-            /* 保持圖片原比例，不裁剪，不設 aspect-ratio */
-            display: flex; /* 為了讓圖片在 profile-area 內部居中 */
+            display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden; /* 防止圖片溢出容器 */
@@ -59,7 +63,6 @@
             object-fit: contain; /* 確保圖片完整顯示，不裁剪 */
             border: 4px solid var(--primary-color);
             box-shadow: 0 0 15px rgba(142, 68, 173, 0.3);
-            /* 移除 border-radius 和 mask-image，以顯示原比例方塊 */
         }
 
         /* 文字內容區域 */
@@ -67,9 +70,9 @@
             display: flex;
             flex-direction: column;
             align-items: center; /* 縱向時文字居中 */
-            flex-grow: 1;
+            flex-grow: 1; /* 佔據剩餘空間 */
             width: 100%;
-            max-width: 500px;
+            max-width: 500px; /* 限制文字區域最大寬度 */
         }
 
         h1 {
@@ -84,29 +87,42 @@
             max-width: 90%;
             cursor: pointer;
             transition: all var(--transition-speed);
-            position: relative; /* 為了 span 的絕對定位 */
+            position: relative;
+            line-height: 1.5; /* 統一簡述行高 */
+            text-align: center; /* 縱向時文字居中 */
         }
 
         .short-description {
-            display: -webkit-box;
+            /* 預設限制為單行，並顯示省略號 */
+            display: block; /* 確保 p 元素是塊級元素 */
             -webkit-line-clamp: 1; /* 限制為單行 */
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis; /* 標準屬性 */
-            line-height: 1.5; /* 確保行高 */
+            line-height: inherit; /* 繼承 wrapper 的行高 */
+            margin: 0; /* 移除 p 元素的預設 margin */
+            padding: 0;
+            background-color: rgba(255, 255, 255, 0.7); /* 為了圖片中的藍色背景，這裡給個淡藍色半透明 */
+            border-radius: 8px;
+            padding: 10px 15px; /* 內部填充 */
+            box-sizing: border-box;
+            transition: all var(--transition-speed);
         }
 
         .short-description.expanded {
             -webkit-line-clamp: unset; /* 移除行數限制 */
-            white-space: normal;
-            text-overflow: clip;
+            text-overflow: clip; /* 展開後不顯示省略號 */
+            white-space: normal; /* 正常換行 */
+            overflow: visible; /* 允許內容溢出 */
+            background-color: rgba(255, 255, 255, 0.9); /* 展開時更實一些 */
         }
 
         .toggle-text {
             color: #666;
             font-size: 0.8em;
-            vertical-align: top;
-            margin-left: 5px; /* 與文字的間距 */
+            display: block; /* 讓它獨立一行 */
+            margin-top: 5px; /* 與文字的間距 */
+            text-align: center;
             white-space: nowrap; /* 防止換行 */
         }
 
@@ -114,10 +130,11 @@
         .social-links {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: center; /* 縱向時圖示居中 */
             gap: 20px;
             width: 100%;
             max-width: 400px;
+            margin-top: 0px; /* 讓它緊隨簡述文字 */
         }
 
         .social-link-item {
@@ -135,7 +152,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Specific icon colors (keep as is) */
+        /* Specific icon colors (保持不變) */
         .social-link-item.facebook { background-color: #3b5998; }
         .social-link-item.instagram { background-image: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
         .social-link-item.linkedin { background-color: #0077b5; }
@@ -158,19 +175,29 @@
         @media (orientation: landscape) and (min-aspect-ratio: 1/1) {
             .content-wrapper {
                 flex-direction: row; /* 橫向排列 */
-                justify-content: center;
-                align-items: center; /* 保持垂直居中 */
+                justify-content: center; /* 水平居中 */
+                align-items: center; /* 垂直居中 */
                 padding: 40px;
+                min-height: auto; /* 橫屏時高度自動，不再強制 100vh，避免被裁剪 */
+                height: 90vh; /* 限制最大高度為視窗的 90% */
+                max-width: 1200px; /* 限制橫屏時內容的最大寬度 */
             }
 
             .profile-area {
-                width: 35%; /* 佔據左半邊，調整以減少靠下 */
-                max-width: 350px; /* 橫向時頭像區塊最大寬度 */
+                width: 40%; /* 佔據左半邊，讓頭像更大一些 */
+                height: 100%; /* 佔據 content-wrapper 的高度 */
+                max-width: 450px; /* 橫向時頭像區塊最大寬度 */
                 margin-right: 50px; /* 頭像與右側內容間距 */
                 margin-bottom: 0;
+                display: flex; /* 確保內部圖片能夠上下居中 */
+                justify-content: center;
+                align-items: center; /* 頭像在左半邊垂直居中 */
             }
 
             .profile-pic {
+                width: 90%; /* 圖片寬度佔 profile-area 的 90% */
+                height: auto;
+                max-height: 90%; /* 限制圖片最大高度，防止溢出 */
                 border-width: 6px;
                 box-shadow: 0 0 25px rgba(142, 68, 173, 0.4);
             }
@@ -178,8 +205,9 @@
             .text-content-area {
                 align-items: flex-start; /* 文字左對齊 */
                 text-align: left; /* 文字左對齊 */
-                width: auto;
-                max-width: 600px;
+                width: 55%; /* 佔據右半邊 */
+                max-width: 700px;
+                flex-shrink: 1; /* 允許文字區塊縮小 */
             }
 
             h1 {
@@ -190,9 +218,7 @@
                 font-size: 1.2em;
                 margin-bottom: 30px;
                 max-width: 100%;
-            }
-            .short-description.expanded {
-                max-width: 800px; /* 展開後最大寬度 */
+                text-align: left; /* 橫屏時簡述文字靠左 */
             }
 
             .social-links {
@@ -287,53 +313,63 @@
             const toggleTextSpan = document.getElementById('toggle-text');
             const originalFullText = descriptionText.innerText; // 保存完整的原始文字
             const truncatedLineCount = 1; // 簡述縮到一行
-            let isExpanded = false;
+
+            let isExpanded = false; // 用來追蹤當前狀態
 
             function updateDescriptionDisplay() {
-                // 重置狀態以便重新計算
+                // 先將文字恢復到完整狀態，以便正確判斷其高度
                 descriptionText.classList.remove('expanded');
-                descriptionText.style.webkitLineClamp = 'unset'; // 暫時移除限制以獲取實際高度
+                descriptionText.style.webkitLineClamp = 'unset';
+                descriptionText.innerText = originalFullText; // 確保是完整文字
 
-                // 判斷文字內容是否超過一行
-                // 這裡我們需要實際渲染後的高度來判斷
-                // 如果原始文字的滾動高度大於單行高度，就代表需要截斷
-                const lineHeight = parseFloat(getComputedStyle(descriptionText).lineHeight);
-                const maxSingleLineHeight = lineHeight * truncatedLineCount;
+                // 檢查是否需要截斷
+                // 這是一個比較可靠的判斷方式：如果文字的實際內容高度超過單行高度，就截斷
+                // 需要考慮 `line-height`
+                const computedStyle = getComputedStyle(descriptionText);
+                const lineHeight = parseFloat(computedStyle.lineHeight);
+                const actualHeight = descriptionText.scrollHeight; // 內容的實際高度
 
-                if (descriptionText.scrollHeight > maxSingleLineHeight) {
-                    descriptionText.classList.remove('expanded'); // 確保不是展開狀態
-                    descriptionText.style.webkitLineClamp = truncatedLineCount; // 限制為一行
-                    toggleTextSpan.style.display = 'inline'; // 顯示點擊展開提示
-                    toggleTextSpan.innerText = ' ...點擊展開';
-                    descriptionWrapper.style.cursor = 'pointer'; // 顯示手型游標
+                // 計算單行文字的近似高度（可能需要微調）
+                const singleLineApproxHeight = lineHeight * truncatedLineCount + 2; // 增加少量容錯值
+
+                if (actualHeight > singleLineApproxHeight) {
+                    // 需要截斷
+                    descriptionText.style.webkitLineClamp = truncatedLineCount;
+                    toggleTextSpan.style.display = 'block'; // 顯示提示文字
+                    toggleTextSpan.innerText = isExpanded ? '...點擊收起' : '...點擊展開';
+                    descriptionWrapper.style.cursor = 'pointer';
                 } else {
-                    // 如果文字不夠長，移除所有展開/收起功能和提示
+                    // 文字不夠長，不需要截斷
                     descriptionText.style.webkitLineClamp = 'unset';
-                    descriptionText.classList.remove('expanded');
-                    toggleTextSpan.style.display = 'none';
+                    toggleTextSpan.style.display = 'none'; // 隱藏提示文字
                     descriptionWrapper.style.cursor = 'default';
                 }
             }
 
-            // 初始化時檢查文字是否需要截斷
+            // 初始化時檢查一次
             updateDescriptionDisplay();
 
+            // 添加點擊事件
             descriptionWrapper.addEventListener('click', function() {
-                // 只有當 toggleTextSpan 顯示時才觸發點擊事件
-                if (toggleTextSpan.style.display === 'inline') {
-                    isExpanded = !isExpanded;
+                // 只有當 toggleTextSpan 顯示時才觸發點擊事件，避免點擊短文字時的無效操作
+                if (toggleTextSpan.style.display === 'block') {
+                    isExpanded = !isExpanded; // 切換狀態
                     if (isExpanded) {
                         descriptionText.classList.add('expanded');
-                        toggleTextSpan.innerText = ' ...點擊收起';
+                        toggleTextSpan.innerText = '...點擊收起';
                     } else {
                         descriptionText.classList.remove('expanded');
-                        toggleTextSpan.innerText = ' ...點擊展開';
+                        toggleTextSpan.innerText = '...點擊展開';
                     }
                 }
             });
 
-            // 視窗大小改變時（特別是手機橫縱屏切換），重新檢查並更新顯示
-            window.addEventListener('resize', updateDescriptionDisplay);
+            // 監聽視窗大小變化，重新判斷是否需要截斷
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(updateDescriptionDisplay, 100); // 延遲執行，避免頻繁觸發
+            });
         });
     </script>
 </body>

@@ -5,196 +5,336 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>你的名字 - 個人連結</title>
     <style>
+        :root {
+            --primary-color: #8e44ad; /* 主色調 */
+            --gradient-start: #f0e6fa;
+            --gradient-end: #d8e2dc;
+            --text-color: #333;
+            --bg-color: #fff;
+            --link-color: #fff;
+            --link-hover-transform: translateY(-5px) scale(1.1);
+            --link-hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            --transition-speed: 0.3s ease;
+        }
+
         body {
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-display: flex;
-justify-content: center;
-align-items: center;
-min-height: 100vh;
-margin: 0;
-  background: linear-gradient(135deg, #f0e6fa 0%, #d8e2dc 100%);
-color: #333;
-text-align: center;
-}
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: var(--text-color);
+            text-align: center;
+            overflow: hidden; /* 防止滾動條 */
+            position: relative; /* 為了絕對定位連結圖示，如果整個頁面是容器的話 */
+        }
 
-.container {
-    background-color: #fff;
-    padding: 30px; /* 調整手機上的內邊距 */
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    max-width: 90%; /* 手機上佔據更多寬度 */
-    width: 100%;
-    transition: transform 0.3s ease-in-out;
-    margin: 20px; /* 手機上增加外邊距 */
-}
+        /* 內容容器 - 橫屏時會是左右分欄，縱屏時會是上下堆疊 */
+        .content-wrapper {
+            display: flex;
+            flex-direction: column; /* 預設縱向堆疊 */
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 100vh; /* 確保內容佔滿頁面 */
+            box-sizing: border-box;
+            padding: 20px; /* 全頁面但還是留點邊距 */
+        }
 
-.container:hover {
-    transform: translateY(-5px);
-}
+        /* 頭像區域 */
+        .profile-area {
+            position: relative;
+            margin-bottom: 30px; /* 縱向時頭像下方的間距 */
+            width: 80%; /* 縱向時佔據容器寬度 */
+            max-width: 300px; /* 限制最大寬度 */
+            aspect-ratio: 1 / 1; /* 保持頭像容器為正方形 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* 確保漸變遮罩有效 */
+        }
 
-.profile-pic {
-    width: 100px; /* 調整手機上的頭像大小 */
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 15px; /* 調整手機上的間距 */
-    border: 4px solid #8e44ad;
-    box-shadow: 0 0 15px rgba(142, 68, 173, 0.3);
-}
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%; /* 圓形頭像 */
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 0 15px rgba(142, 68, 173, 0.3);
+            /* 邊緣淡化效果 */
+            mask-image: radial-gradient(circle at center, black 60%, transparent 90%);
+            -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 90%);
+        }
 
-h1 {
-    color: #8e44ad;
-    margin-bottom: 8px; /* 調整手機上的間距 */
-    font-size: 1.8em; /* 調整手機上的字體大小 */
-}
+        /* 文字內容區域 */
+        .text-content-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* 縱向時文字居中 */
+            flex-grow: 1; /* 佔據剩餘空間 */
+            width: 100%;
+            max-width: 500px; /* 限制文字區域最大寬度 */
+        }
 
-p {
-    font-size: 0.9em; /* 調整手機上的字體大小 */
-    margin-bottom: 15px; /* 調整手機上的間距 */
-}
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
 
-.social-links {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 15px; /* 調整手機上的圖示間距 */
-    margin-top: 20px; /* 調整手機上的間距 */
-}
+        .short-description {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap; /* 確保單行 */
+            cursor: pointer; /* 點擊可展開 */
+            max-width: 90%; /* 確保單行不會太長 */
+            transition: all var(--transition-speed);
+        }
 
-.social-link-item {
-    text-decoration: none;
-    color: #fff;
-    background-color: #a0a0a0;
-    width: 45px; /* 調整手機上的圖示大小 */
-    height: 45px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.4em; /* 調整手機上的圖示大小 */
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
+        .short-description.expanded {
+            white-space: normal; /* 展開後正常換行 */
+            text-overflow: clip; /* 展開後不顯示省略號 */
+            word-wrap: break-word; /* 防止長單詞溢出 */
+            max-width: 800px; /* 展開後最大寬度 */
+            margin-bottom: 30px; /* 展開後增加底部間距 */
+        }
 
-/* Specific icon colors */
-.social-link-item.facebook { background-color: #3b5998; }
-.social-link-item.instagram { background-image: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-.social-link-item.linkedin { background-color: #0077b5; }
-.social-link-item.github { background-color: #333; }
-.social-link-item.twitter { background-color: #1DA1F2; }
-.social-link-item.youtube { background-color: #FF0000; }
-.social-link-item.website { background-color: #4CAF50; }
-.social-link-item.email { background-color: #D44638; }
+        .short-description::after {
+            content: ' ...點擊展開'; /* 初始顯示文字 */
+            color: #666;
+            font-size: 0.8em;
+            vertical-align: top;
+            transition: opacity var(--transition-speed);
+            opacity: 1;
+        }
 
-.social-link-item:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
+        .short-description.expanded::after {
+            content: ' ...點擊收起'; /* 展開後顯示文字 */
+            opacity: 1;
+        }
 
-.social-link-item i {
-    pointer-events: none;
-}
+        /* 連結圖示 */
+        .social-links {
+            display: flex;
+            flex-wrap: wrap; /* 允許換行 */
+            justify-content: center; /* 縱向時圖示居中 */
+            gap: 20px;
+            width: 100%;
+            max-width: 400px; /* 限制縱向時圖示區域寬度 */
+        }
 
-/* **針對小螢幕 (手機) 的樣式** */
-@media (max-width: 600px) {
-    .container {
-        padding: 20px;
-    }
+        .social-link-item {
+            text-decoration: none;
+            color: var(--link-color);
+            background-color: #a0a0a0;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            transition: all var(--transition-speed);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .profile-pic {
-        width: 80px;
-        height: 80px;
-        margin-bottom: 10px;
-    }
+        /* Specific icon colors */
+        .social-link-item.facebook { background-color: #3b5998; }
+        .social-link-item.instagram { background-image: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .social-link-item.linkedin { background-color: #0077b5; }
+        .social-link-item.github { background-color: #333; }
+        .social-link-item.twitter { background-color: #1DA1F2; }
+        .social-link-item.youtube { background-color: #FF0000; }
+        .social-link-item.website { background-color: #4CAF50; }
+        .social-link-item.email { background-color: #D44638; }
 
-    h1 {
-        font-size: 1.6em;
-    }
+        .social-link-item:hover {
+            transform: var(--link-hover-transform);
+            box-shadow: var(--link-hover-shadow);
+        }
 
-    .social-links {
-        gap: 10px;
-        margin-top: 15px;
-    }
+        .social-link-item i {
+            pointer-events: none;
+        }
 
-    .social-link-item {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2em;
-    }
-}
+        /* **橫屏模式 (長寬比大於1:1)** */
+        @media (orientation: landscape) and (min-aspect-ratio: 1/1) {
+            .content-wrapper {
+                flex-direction: row; /* 橫向排列 */
+                justify-content: center;
+                align-items: center;
+                padding: 40px; /* 橫向時加大 padding */
+            }
 
-/* **針對手機橫向模式的樣式** */
-@media (max-width: 900px) and (orientation: landscape) {
-    body {
-        align-items: flex-start; /* 橫向時靠頂部顯示 */
-        padding-top: 20px;
-    }
+            .profile-area {
+                width: 40%; /* 佔據左半邊 */
+                height: auto;
+                max-width: 400px; /* 橫向時頭像區塊最大寬度 */
+                margin-right: 50px; /* 頭像與右側內容間距 */
+                margin-bottom: 0;
+            }
 
-    .container {
-        flex-direction: row; /* 橫向排列頭像和文字 */
-        align-items: center;
-        text-align: left;
-        padding: 20px;
-        max-width: 80%; /* 允許在橫向佔據更多空間 */
-    }
+            .profile-pic {
+                border-width: 6px; /* 橫向時邊框粗一些 */
+                box-shadow: 0 0 25px rgba(142, 68, 173, 0.4);
+            }
 
-    .profile-pic {
-        margin-right: 20px;
-        margin-bottom: 0;
-    }
+            .text-content-area {
+                align-items: flex-start; /* 文字左對齊 */
+                text-align: left; /* 文字左對齊 */
+                width: auto;
+                max-width: 600px; /* 橫向時文字區域最大寬度 */
+            }
 
-    .info {
-        margin-right: 20px;
-    }
+            h1 {
+                font-size: 3.5em; /* 橫向時名字更大 */
+            }
 
-    .social-links {
-        margin-top: 0; /* 橫向時靠近文字 */
-        flex-direction: column; /* 圖示垂直排列 */
-        align-items: flex-start;
-        gap: 10px;
-    }
+            .short-description {
+                font-size: 1.2em;
+                margin-bottom: 30px;
+                max-width: 100%; /* 橫向時可佔據更多寬度 */
+            }
 
-    .social-link-item {
-        width: 50px;
-        height: 50px;
-        font-size: 1.4em;
-    }
-}
+            .social-links {
+                justify-content: flex-start; /* 橫向時圖示靠左對齊 */
+                gap: 25px;
+                max-width: 100%; /* 橫向時圖示區域寬度可更大 */
+            }
+
+            .social-link-item {
+                width: 70px; /* 橫向時圖示更大 */
+                height: 70px;
+                font-size: 2.2em;
+            }
+        }
+
+        /* **小螢幕調整 (確保縱向手機效果)** */
+        @media (max-width: 600px) {
+            .profile-area {
+                width: 70%; /* 縱向手機頭像佔據更多空間 */
+                margin-bottom: 20px;
+            }
+
+            .profile-pic {
+                border-width: 3px;
+                box-shadow: 0 0 10px rgba(142, 68, 173, 0.2);
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .short-description {
+                font-size: 1em;
+                margin-bottom: 15px;
+            }
+
+            .social-links {
+                gap: 15px;
+            }
+
+            .social-link-item {
+                width: 50px;
+                height: 50px;
+                font-size: 1.6em;
+            }
+        }
+
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <img src="https://pbs.twimg.com/profile_images/1909786631877672962/5SAFWr7H_400x400.jpg" alt="你的大頭貼" class="profile-pic">
-        <h1>你的名字</h1>
-        <p>簡短的個人介紹或Slogan (可選)</p>
+    <div class="content-wrapper">
+        <div class="profile-area">
+            <img src="你的大頭貼圖片網址.jpg" alt="你的大頭貼" class="profile-pic">
+        </div>
 
-        <div class="social-links">
-            <a href="你的Facebook網址" target="_blank" class="social-link-item facebook">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="你的Instagram網址" target="_blank" class="social-link-item instagram">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="你的LinkedIn網址" target="_blank" class="social-link-item linkedin">
-                <i class="fab fa-linkedin-in"></i>
-            </a>
-            <a href="你的GitHub網址" target="_blank" class="social-link-item github">
-                <i class="fab fa-github"></i>
-            </a>
-            <a href="你的Twitter網址" target="_blank" class="social-link-item twitter">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="你的YouTube網址" target="_blank" class="social-link-item youtube">
-                <i class="fab fa-youtube"></i>
-            </a>
-            <a href="你的個人網站網址" target="_blank" class="social-link-item website">
-                <i class="fas fa-globe"></i>
-            </a>
-            <a href="mailto:你的Email信箱" class="social-link-item email">
-                <i class="fas fa-envelope"></i>
-            </a>
-            </div>
+        <div class="text-content-area">
+            <h1>你的名字</h1>
+            <p class="short-description" id="description">
+                這是一個較長的個人簡介或Slogan範例，用來測試文字多時的效果。你可以在這裡放置你的專業、興趣、或是你的個人座右銘，它會自動換行，點擊後展開顯示全部內容，再點擊則收回為單行。請根據你的實際需求修改這段文字的內容，並確保其長度足以測試單行和多行的效果。
+            </p>
+            <div class="social-links">
+                <a href="你的Facebook網址" target="_blank" class="social-link-item facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="你的Instagram網址" target="_blank" class="social-link-item instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="你的LinkedIn網址" target="_blank" class="social-link-item linkedin">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="你的GitHub網址" target="_blank" class="social-link-item github">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="你的Twitter網址" target="_blank" class="social-link-item twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="你的YouTube網址" target="_blank" class="social-link-item youtube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="你的個人網站網址" target="_blank" class="social-link-item website">
+                    <i class="fas fa-globe"></i>
+                </a>
+                <a href="mailto:你的Email信箱" class="social-link-item email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                </div>
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const description = document.getElementById('description');
+            const originalText = description.innerText;
+            const threshold = 50; // 簡介文字的長度閾值，超過這個長度就會顯示點擊展開
+            let isExpanded = false;
+
+            // 判斷是否需要收縮功能
+            function checkDescriptionLength() {
+                if (originalText.length > threshold) {
+                    description.setAttribute('data-original-text', originalText);
+                    description.innerText = originalText.substring(0, threshold); // 初始顯示部分文字
+                    description.classList.add('truncated'); // 添加 class 表示已截斷
+                } else {
+                    // 如果文字不夠長，移除點擊功能和箭頭
+                    description.style.whiteSpace = 'normal';
+                    description.style.textOverflow = 'clip';
+                    description.style.cursor = 'default';
+                    description.classList.remove('short-description'); // 移除單行樣式
+                    description.classList.remove('truncated');
+                    description.removeAttribute('data-original-text');
+                    // 移除偽元素顯示的文字
+                    description.style.setProperty('--after-content', '""');
+                }
+            }
+
+            checkDescriptionLength(); // 頁面載入時檢查一次
+
+            description.addEventListener('click', function() {
+                if (!description.classList.contains('truncated')) {
+                    // 如果文字不夠長，則沒有展開/收起功能
+                    return;
+                }
+
+                isExpanded = !isExpanded;
+                if (isExpanded) {
+                    this.innerText = this.getAttribute('data-original-text');
+                    this.classList.add('expanded');
+                } else {
+                    this.innerText = this.getAttribute('data-original-text').substring(0, threshold);
+                    this.classList.remove('expanded');
+                }
+            });
+
+            // 為了確保在視窗大小改變時（特別是手機橫縱屏切換時）重新檢查
+            window.addEventListener('resize', checkDescriptionLength);
+        });
+    </script>
 </body>
 </html>

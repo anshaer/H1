@@ -3,138 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的個性化網頁</title>
+    <title>網頁編輯範例</title>
     <style>
         body {
-            background-color: #77d4ab; /* 1. 頁面背景 */
+            background-color: #77d4ab; /* 頁面背景 */
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* 確保內容至少佔據整個視窗高度 */
+            min-height: 100vh; /* 確保內容區塊垂直置中 */
             margin: 0;
             font-family: Arial, sans-serif;
-            overflow: hidden; /* 防止頁面出現滾動條 */
         }
 
         .data-display-area {
-            width: 95%; /* 2. 資料顯示區塊寬度 */
-            height: 95vh; /* 2. 資料顯示區塊高度 */
-            border: 2px solid transparent; /* 2. 邊框透明 */
-            background-color: transparent; /* 2. 背景透明 */
-            position: relative; /* 為了讓內部絕對定位元素能相對於此區塊定位 */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; /* 隱藏超出此區塊的內容 */
+            width: 95%; /* 資料顯示區塊為頁面中的95% */
+            /* border: 1px solid transparent; */ /* 邊框透明 */
+            background-color: transparent; /* 背景透明 */
+            box-sizing: border-box; /* 確保padding和border不會增加寬度 */
+            position: relative; /* 為了圖片和標題的定位 */
+            display: flex; /* 為了圖片的垂直置中 */
+            align-items: center; /* 垂直置中圖片 */
+            justify-content: center; /* 為了圖片的水平置中，但後續會調整 */
+            overflow: hidden; /* 確保圖片不會溢出 */
+            min-height: 80vh; /* 確保資料區有足夠高度 */
         }
 
         .image-container {
             position: absolute;
-            right: 50%; /* 圖片容器的右側貼齊資料顯示區的中線 */
-            top: 50%; /* 上下置中 */
-            transform: translateY(-50%);
-            width: 50%; /* 圖片容器佔據資料顯示區的一半寬度 */
-            height: 100%; /* 圖片容器佔據資料顯示區的全部高度 */
-            display: flex;
-            justify-content: flex-end; /* 圖片在容器內靠右對齊 */
-            align-items: center; /* 圖片在容器內上下置中 */
-            overflow: hidden; /* 確保圖片不會超出容器 */
-        }
-
-        .data-image {
-            max-width: 175%; /* 3. 圖片等比縮放，最大175% */
-            max-height: 100%; /* 確保圖片高度不超過資料顯示區 */
-            width: auto; /* 保持圖片等比 */
-            height: auto; /* 保持圖片等比 */
-            display: block;
-            object-fit: contain; /* 確保圖片完整顯示且等比 */
-        }
-
-        .title-float {
-            position: absolute;
-            left: calc(50% + 2ch); /* 3. 標題左側與資料顯示區中線間隔2個字符 */
-            top: 50%; /* 上下置中 */
-            transform: translateY(-50%);
-            background-color: rgba(255, 255, 255, 0.8); /* 浮動磚背景 */
-            padding: 20px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 10; /* 確保標題浮在其他元素上方 */
-            text-align: center;
-        }
-
-        .title-float h1 {
-            margin: 0;
-            color: #333;
-            font-size: 2.5em;
-        }
-
-        .interactive-icons {
-            position: absolute;
-            left: calc(50% + 2ch); /* 與標題左側對齊 */
-            top: calc(50% + 120px); /* 在標題下方，可調整此值 */
-            transform: translateY(-50%);
-            z-index: 10;
-            display: flex;
-            flex-direction: column; /* 垂直排列 */
-            gap: 15px; /* 圖標間距 */
-        }
-
-        .icon-button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s ease; /* 按鈕懸停效果 */
-            text-decoration: none; /* 移除連結下劃線 */
+            right: 50%; /* 圖片的右側貼齊資料顯示區中心線 */
+            transform: translateX(50%); /* 抵銷right: 50%的位移，使圖片中心對齊資料區中心線 */
+            max-width: 175%; /* 最大175%不裁切完整顯示 */
+            max-height: 100%; /* 上下邊框不超過資料顯示區 */
             display: flex;
             align-items: center;
             justify-content: center;
-            min-width: 120px; /* 確保按鈕有最小寬度 */
         }
 
-        .icon-button:hover {
-            background-color: #0056b3;
+        .image-container img {
+            max-width: 100%; /* 等比縮放 */
+            max-height: 100%; /* 等比縮放 */
+            display: block; /* 移除圖片下方空白 */
         }
 
-        /* 浮動磚彈出視窗樣式 */
+        .title-floating-box {
+            position: absolute;
+            left: calc(50% - 2em); /* 標題左側與資料顯示區中線間隔2個字符 */
+            transform: translateY(-50%); /* 垂直置中 */
+            top: 50%; /* 垂直置中 */
+            background-color: rgba(255, 255, 255, 0.8); /* 浮動磚背景，可調整透明度 */
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 10; /* 確保標題在圖片上方 */
+            white-space: nowrap; /* 防止標題換行 */
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .interaction-icons {
+            position: absolute;
+            top: calc(50% + 40px); /* 調整位置在標題下方，40px是預估標題高度加上間距 */
+            left: calc(50% - 2em); /* 與標題左側對齊 */
+            transform: translateY(-50%); /* 垂直置中 */
+            display: flex;
+            gap: 20px; /* 圖示間距 */
+            z-index: 10;
+        }
+
+        .icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        .icon-item img {
+            width: 40px; /* 圖示大小 */
+            height: 40px;
+            margin-bottom: 5px;
+        }
+
+        /* 浮動磚彈出視窗 */
         .popup {
-            display: none; /* 預設隱藏 */
-            position: fixed; /* 固定在視窗中 */
+            display: none;
+            position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%); /* 居中 */
+            transform: translate(-50%, -50%);
             background-color: white;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            z-index: 100; /* 確保彈出視窗在最上層 */
-            text-align: center;
-            max-width: 80%; /* 限制彈出視窗最大寬度 */
+            z-index: 100;
+            max-width: 80vw;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .popup-content {
+            margin-bottom: 20px;
         }
 
         .popup-close {
             position: absolute;
             top: 10px;
-            right: 15px;
-            font-size: 1.8em;
+            right: 10px;
+            font-size: 1.5em;
             cursor: pointer;
-            color: #aaa;
         }
 
-        .popup-close:hover {
-            color: #333;
+        .popup-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
-
-        .popup a {
+        .popup-links a {
             color: #007bff;
             text-decoration: none;
         }
-
-        .popup a:hover {
+        .popup-links a:hover {
             text-decoration: underline;
         }
     </style>
@@ -142,49 +132,79 @@
 <body>
     <div class="data-display-area">
         <div class="image-container">
-            <img src="2.jpg" alt="資料圖片" class="data-image">
+            <img src="2.jpg" alt="代表圖片">
         </div>
 
-        <div class="title-float">
-            <h1>歡迎來到我的專頁！</h1>
+        <div class="title-floating-box">
+            這是您的標題
         </div>
 
-        <div class="interactive-icons">
-            <button class="icon-button" onclick="openPopup('textPopup')">文字敘述</button>
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="icon-button">YT連結</a> <button class="icon-button" onclick="openPopup('socialPopup')">社群連結</button>
-            <button class="icon-button" onclick="openPopup('otherLinksPopup')">其他連結</button>
+        <div class="interaction-icons">
+            <div class="icon-item" onclick="showPopup('text')">
+                <img src="text_icon.png" alt="文字敘述">
+                <span>文字敘述</span>
+            </div>
+            <div class="icon-item" onclick="window.open('https://www.youtube.com/watch?v=your_youtube_video_id', '_blank')">
+                <img src="youtube_icon.png" alt="YT連結">
+                <span>YT連結</span>
+            </div>
+            <div class="icon-item" onclick="showPopup('social')">
+                <img src="social_icon.png" alt="社群連結">
+                <span>社群連結</span>
+            </div>
+            <div class="icon-item" onclick="showPopup('other')">
+                <img src="link_icon.png" alt="其他連結">
+                <span>其他連結</span>
+            </div>
         </div>
     </div>
 
-    <div id="textPopup" class="popup">
-        <span class="popup-close" onclick="closePopup('textPopup')">×</span>
-        <h2>文字敘述內容</h2>
-        <p>這是一個示範性的文字敘述。您可以將任何重要的資訊或簡介放在這裡。</p>
+    <div id="popup" class="popup">
+        <span class="popup-close" onclick="closePopup()">&times;</span>
+        <div id="popup-content" class="popup-content">
+            </div>
     </div>
-
-    <div id="socialPopup" class="popup">
-        <span class="popup-close" onclick="closePopup('socialPopup')">×</span>
-        <h2>社群連結</h2>
-        <p><a href="https://twitter.com/your_twitter_id" target="_blank">Twitter</a></p>
-        <p><a href="https://facebook.com/your_facebook_page" target="_blank">Facebook</a></p>
-        <p><a href="https://instagram.com/your_instagram_id" target="_blank">Instagram</a></p>
-        </div>
-
-    <div id="otherLinksPopup" class="popup">
-        <span class="popup-close" onclick="closePopup('otherLinksPopup')">×</span>
-        <h2>其他連結</h2>
-        <p><a href="https://www.example.com/link1" target="_blank">我的作品集</a></p>
-        <p><a href="https://www.example.com/link2" target="_blank">部落格文章</a></p>
-        <p><a href="https://www.example.com/link3" target="_blank">聯絡我</a></p>
-        </div>
 
     <script>
-        function openPopup(popupId) {
-            document.getElementById(popupId).style.display = 'block';
+        function showPopup(type) {
+            const popup = document.getElementById('popup');
+            const popupContent = document.getElementById('popup-content');
+
+            // 清空舊內容
+            popupContent.innerHTML = '';
+
+            if (type === 'text') {
+                popupContent.innerHTML = `
+                    <h3>詳細文字敘述</h3>
+                    <p>這裡可以放置您的詳細文字內容。這是一個範例，您可以根據需要編輯這段文字，例如介紹產品、服務或任何您想傳達的資訊。</p>
+                    <p>您可以增加更多段落，或是加入清單、粗體字等來豐富內容。</p>
+                `;
+            } else if (type === 'social') {
+                popupContent.innerHTML = `
+                    <h3>社群連結</h3>
+                    <div class="popup-links">
+                        <a href="https://twitter.com/your_twitter_id" target="_blank">Twitter</a>
+                        <a href="https://facebook.com/your_facebook_page" target="_blank">Facebook</a>
+                        <a href="https://instagram.com/your_instagram_id" target="_blank">Instagram</a>
+                        <a href="#" target="_blank">Line (連結範例)</a>
+                    </div>
+                `;
+            } else if (type === 'other') {
+                popupContent.innerHTML = `
+                    <h3>其他連結</h3>
+                    <div class="popup-links">
+                        <a href="https://www.example.com/link1" target="_blank">網站連結一</a>
+                        <a href="https://www.example.com/link2" target="_blank">網站連結二</a>
+                        <a href="https://www.example.com/link3" target="_blank">網站連結三</a>
+                        <a href="https://www.example.com/link4" target="_blank">網站連結四</a>
+                    </div>
+                `;
+            }
+            popup.style.display = 'block';
         }
 
-        function closePopup(popupId) {
-            document.getElementById(popupId).style.display = 'none';
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
         }
     </script>
 </body>

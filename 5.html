@@ -6,11 +6,10 @@
     <title>你的名字 - 個人連結</title>
     <style>
         :root {
-            --primary-color: #58aebf; /* 主色調 */
+            --primary-color: #8e44ad; /* 主色調 */
             --gradient-start: #f0e6fa;
             --gradient-end: #d8e2dc;
             --text-color: #333;
-            --bg-color: #fff;
             --link-color: #fff;
             --link-hover-transform: translateY(-5px) scale(1.1);
             --link-hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -28,44 +27,39 @@
             color: var(--text-color);
             text-align: center;
             overflow: hidden; /* 防止滾動條 */
-            position: relative; /* 為了絕對定位連結圖示，如果整個頁面是容器的話 */
+            position: relative;
         }
 
-        /* 內容容器 - 橫屏時會是左右分欄，縱屏時會是上下堆疊 */
         .content-wrapper {
             display: flex;
             flex-direction: column; /* 預設縱向堆疊 */
             align-items: center;
             justify-content: center;
             width: 100%;
-            min-height: 100vh; /* 確保內容佔滿頁面 */
+            min-height: 100vh;
             box-sizing: border-box;
-            padding: 20px; /* 全頁面但還是留點邊距 */
+            padding: 20px;
         }
 
         /* 頭像區域 */
         .profile-area {
-            position: relative;
             margin-bottom: 30px; /* 縱向時頭像下方的間距 */
             width: 80%; /* 縱向時佔據容器寬度 */
             max-width: 300px; /* 限制最大寬度 */
-            aspect-ratio: 1 / 1; /* 保持頭像容器為正方形 */
-            display: flex;
+            /* 保持圖片原比例，不裁剪，不設 aspect-ratio */
+            display: flex; /* 為了讓圖片在 profile-area 內部居中 */
             justify-content: center;
             align-items: center;
-            overflow: hidden; /* 確保漸變遮罩有效 */
+            overflow: hidden; /* 防止圖片溢出容器 */
         }
 
         .profile-pic {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%; /* 圓形頭像 */
+            width: 100%; /* 圖片寬度佔滿容器 */
+            height: auto; /* 高度自動調整以保持原比例 */
+            object-fit: contain; /* 確保圖片完整顯示，不裁剪 */
             border: 4px solid var(--primary-color);
             box-shadow: 0 0 15px rgba(142, 68, 173, 0.3);
-            /* 邊緣淡化效果 */
-            mask-image: radial-gradient(circle at center, black 60%, transparent 90%);
-            -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 90%);
+            /* 移除 border-radius 和 mask-image，以顯示原比例方塊 */
         }
 
         /* 文字內容區域 */
@@ -73,9 +67,9 @@
             display: flex;
             flex-direction: column;
             align-items: center; /* 縱向時文字居中 */
-            flex-grow: 1; /* 佔據剩餘空間 */
+            flex-grow: 1;
             width: 100%;
-            max-width: 500px; /* 限制文字區域最大寬度 */
+            max-width: 500px;
         }
 
         h1 {
@@ -84,47 +78,46 @@
             font-size: 2.5em;
         }
 
-        .short-description {
+        .short-description-wrapper {
             font-size: 1.1em;
             margin-bottom: 20px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap; /* 確保單行 */
-            cursor: pointer; /* 點擊可展開 */
-            max-width: 90%; /* 確保單行不會太長 */
+            max-width: 90%;
+            cursor: pointer;
             transition: all var(--transition-speed);
+            position: relative; /* 為了 span 的絕對定位 */
+        }
+
+        .short-description {
+            display: -webkit-box;
+            -webkit-line-clamp: 1; /* 限制為單行 */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis; /* 標準屬性 */
+            line-height: 1.5; /* 確保行高 */
         }
 
         .short-description.expanded {
-            white-space: normal; /* 展開後正常換行 */
-            text-overflow: clip; /* 展開後不顯示省略號 */
-            word-wrap: break-word; /* 防止長單詞溢出 */
-            max-width: 800px; /* 展開後最大寬度 */
-            margin-bottom: 30px; /* 展開後增加底部間距 */
+            -webkit-line-clamp: unset; /* 移除行數限制 */
+            white-space: normal;
+            text-overflow: clip;
         }
 
-        .short-description::after {
-            content: ' ...點擊展開'; /* 初始顯示文字 */
+        .toggle-text {
             color: #666;
             font-size: 0.8em;
             vertical-align: top;
-            transition: opacity var(--transition-speed);
-            opacity: 1;
-        }
-
-        .short-description.expanded::after {
-            content: ' ...點擊收起'; /* 展開後顯示文字 */
-            opacity: 1;
+            margin-left: 5px; /* 與文字的間距 */
+            white-space: nowrap; /* 防止換行 */
         }
 
         /* 連結圖示 */
         .social-links {
             display: flex;
-            flex-wrap: wrap; /* 允許換行 */
-            justify-content: center; /* 縱向時圖示居中 */
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 20px;
             width: 100%;
-            max-width: 400px; /* 限制縱向時圖示區域寬度 */
+            max-width: 400px;
         }
 
         .social-link-item {
@@ -142,7 +135,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Specific icon colors */
+        /* Specific icon colors (keep as is) */
         .social-link-item.facebook { background-color: #3b5998; }
         .social-link-item.instagram { background-image: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
         .social-link-item.linkedin { background-color: #0077b5; }
@@ -166,20 +159,19 @@
             .content-wrapper {
                 flex-direction: row; /* 橫向排列 */
                 justify-content: center;
-                align-items: center;
-                padding: 40px; /* 橫向時加大 padding */
+                align-items: center; /* 保持垂直居中 */
+                padding: 40px;
             }
 
             .profile-area {
-                width: 40%; /* 佔據左半邊 */
-                height: auto;
-                max-width: 400px; /* 橫向時頭像區塊最大寬度 */
+                width: 35%; /* 佔據左半邊，調整以減少靠下 */
+                max-width: 350px; /* 橫向時頭像區塊最大寬度 */
                 margin-right: 50px; /* 頭像與右側內容間距 */
                 margin-bottom: 0;
             }
 
             .profile-pic {
-                border-width: 6px; /* 橫向時邊框粗一些 */
+                border-width: 6px;
                 box-shadow: 0 0 25px rgba(142, 68, 173, 0.4);
             }
 
@@ -187,27 +179,30 @@
                 align-items: flex-start; /* 文字左對齊 */
                 text-align: left; /* 文字左對齊 */
                 width: auto;
-                max-width: 600px; /* 橫向時文字區域最大寬度 */
+                max-width: 600px;
             }
 
             h1 {
-                font-size: 3.5em; /* 橫向時名字更大 */
+                font-size: 3.5em;
             }
 
-            .short-description {
+            .short-description-wrapper {
                 font-size: 1.2em;
                 margin-bottom: 30px;
-                max-width: 100%; /* 橫向時可佔據更多寬度 */
+                max-width: 100%;
+            }
+            .short-description.expanded {
+                max-width: 800px; /* 展開後最大寬度 */
             }
 
             .social-links {
                 justify-content: flex-start; /* 橫向時圖示靠左對齊 */
                 gap: 25px;
-                max-width: 100%; /* 橫向時圖示區域寬度可更大 */
+                max-width: 100%;
             }
 
             .social-link-item {
-                width: 70px; /* 橫向時圖示更大 */
+                width: 70px;
                 height: 70px;
                 font-size: 2.2em;
             }
@@ -216,35 +211,29 @@
         /* **小螢幕調整 (確保縱向手機效果)** */
         @media (max-width: 600px) {
             .profile-area {
-                width: 70%; /* 縱向手機頭像佔據更多空間 */
+                width: 70%;
                 margin-bottom: 20px;
             }
-
             .profile-pic {
                 border-width: 3px;
                 box-shadow: 0 0 10px rgba(142, 68, 173, 0.2);
             }
-
             h1 {
                 font-size: 2em;
             }
-
-            .short-description {
+            .short-description-wrapper {
                 font-size: 1em;
                 margin-bottom: 15px;
             }
-
             .social-links {
                 gap: 15px;
             }
-
             .social-link-item {
                 width: 50px;
                 height: 50px;
                 font-size: 1.6em;
             }
         }
-
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -256,9 +245,12 @@
 
         <div class="text-content-area">
             <h1>你的名字</h1>
-            <p class="short-description" id="description">
-                這是一個較長的個人簡介或Slogan範例，用來測試文字多時的效果。你可以在這裡放置你的專業、興趣、或是你的個人座右銘，它會自動換行，點擊後展開顯示全部內容，再點擊則收回為單行。請根據你的實際需求修改這段文字的內容，並確保其長度足以測試單行和多行的效果。
-            </p>
+            <div class="short-description-wrapper" id="description-wrapper">
+                <p class="short-description" id="description-text">
+                    這是一個較長的個人簡介或Slogan範例，用來測試文字多時的效果。你可以在這裡放置你的專業、興趣、或是你的個人座右銘，它會自動換行，點擊後展開顯示全部內容，再點擊則收回為單行。請根據你的實際需求修改這段文字的內容，並確保其長度足以測試單行和多行的效果。
+                </p>
+                <span class="toggle-text" id="toggle-text"></span>
+            </div>
             <div class="social-links">
                 <a href="你的Facebook網址" target="_blank" class="social-link-item facebook">
                     <i class="fab fa-facebook-f"></i>
@@ -284,56 +276,64 @@
                 <a href="mailto:你的Email信箱" class="social-link-item email">
                     <i class="fas fa-envelope"></i>
                 </a>
-                </div>
+            </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const description = document.getElementById('description');
-            const originalText = description.innerText;
-            const threshold = 50; // 簡介文字的長度閾值，超過這個長度就會顯示點擊展開
+            const descriptionWrapper = document.getElementById('description-wrapper');
+            const descriptionText = document.getElementById('description-text');
+            const toggleTextSpan = document.getElementById('toggle-text');
+            const originalFullText = descriptionText.innerText; // 保存完整的原始文字
+            const truncatedLineCount = 1; // 簡述縮到一行
             let isExpanded = false;
 
-            // 判斷是否需要收縮功能
-            function checkDescriptionLength() {
-                if (originalText.length > threshold) {
-                    description.setAttribute('data-original-text', originalText);
-                    description.innerText = originalText.substring(0, threshold); // 初始顯示部分文字
-                    description.classList.add('truncated'); // 添加 class 表示已截斷
+            function updateDescriptionDisplay() {
+                // 重置狀態以便重新計算
+                descriptionText.classList.remove('expanded');
+                descriptionText.style.webkitLineClamp = 'unset'; // 暫時移除限制以獲取實際高度
+
+                // 判斷文字內容是否超過一行
+                // 這裡我們需要實際渲染後的高度來判斷
+                // 如果原始文字的滾動高度大於單行高度，就代表需要截斷
+                const lineHeight = parseFloat(getComputedStyle(descriptionText).lineHeight);
+                const maxSingleLineHeight = lineHeight * truncatedLineCount;
+
+                if (descriptionText.scrollHeight > maxSingleLineHeight) {
+                    descriptionText.classList.remove('expanded'); // 確保不是展開狀態
+                    descriptionText.style.webkitLineClamp = truncatedLineCount; // 限制為一行
+                    toggleTextSpan.style.display = 'inline'; // 顯示點擊展開提示
+                    toggleTextSpan.innerText = ' ...點擊展開';
+                    descriptionWrapper.style.cursor = 'pointer'; // 顯示手型游標
                 } else {
-                    // 如果文字不夠長，移除點擊功能和箭頭
-                    description.style.whiteSpace = 'normal';
-                    description.style.textOverflow = 'clip';
-                    description.style.cursor = 'default';
-                    description.classList.remove('short-description'); // 移除單行樣式
-                    description.classList.remove('truncated');
-                    description.removeAttribute('data-original-text');
-                    // 移除偽元素顯示的文字
-                    description.style.setProperty('--after-content', '""');
+                    // 如果文字不夠長，移除所有展開/收起功能和提示
+                    descriptionText.style.webkitLineClamp = 'unset';
+                    descriptionText.classList.remove('expanded');
+                    toggleTextSpan.style.display = 'none';
+                    descriptionWrapper.style.cursor = 'default';
                 }
             }
 
-            checkDescriptionLength(); // 頁面載入時檢查一次
+            // 初始化時檢查文字是否需要截斷
+            updateDescriptionDisplay();
 
-            description.addEventListener('click', function() {
-                if (!description.classList.contains('truncated')) {
-                    // 如果文字不夠長，則沒有展開/收起功能
-                    return;
-                }
-
-                isExpanded = !isExpanded;
-                if (isExpanded) {
-                    this.innerText = this.getAttribute('data-original-text');
-                    this.classList.add('expanded');
-                } else {
-                    this.innerText = this.getAttribute('data-original-text').substring(0, threshold);
-                    this.classList.remove('expanded');
+            descriptionWrapper.addEventListener('click', function() {
+                // 只有當 toggleTextSpan 顯示時才觸發點擊事件
+                if (toggleTextSpan.style.display === 'inline') {
+                    isExpanded = !isExpanded;
+                    if (isExpanded) {
+                        descriptionText.classList.add('expanded');
+                        toggleTextSpan.innerText = ' ...點擊收起';
+                    } else {
+                        descriptionText.classList.remove('expanded');
+                        toggleTextSpan.innerText = ' ...點擊展開';
+                    }
                 }
             });
 
-            // 為了確保在視窗大小改變時（特別是手機橫縱屏切換時）重新檢查
-            window.addEventListener('resize', checkDescriptionLength);
+            // 視窗大小改變時（特別是手機橫縱屏切換），重新檢查並更新顯示
+            window.addEventListener('resize', updateDescriptionDisplay);
         });
     </script>
 </body>

@@ -17,40 +17,44 @@
       margin: auto;
       margin-top: 2.5%;
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
       background: transparent;
       border: none;
-    }
-    .image-area {
-      flex: 1;
-      max-width: 175%;
-      height: 100%;
       display: flex;
+      justify-content: center;
       align-items: center;
     }
+    .image-area {
+      position: absolute;
+      right: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 87.5%;
+      max-height: 87.5%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
     .image-area img {
-      max-height: 100%;
+      max-height: 175%;
       max-width: 100%;
       object-fit: contain;
     }
     .info-area {
-      flex: 1;
-      position: relative;
-      height: 100%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+      padding-left: 2ch;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: flex-start;
-      padding-left: 20px;
+      gap: 20px;
     }
     .title {
       font-size: 2em;
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.95);
       padding: 10px 20px;
       border-radius: 10px;
-      margin-bottom: 20px;
       box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
     }
     .icons {
@@ -73,23 +77,36 @@
     .popup {
       position: absolute;
       top: 70%;
-      left: 0;
+      left: 50%;
+      transform: translateX(-50%);
       background-color: white;
       border: 1px solid #ccc;
-      padding: 10px;
+      padding: 10px 15px;
       border-radius: 8px;
       display: none;
       box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
       white-space: pre-wrap;
-      z-index: 999;
+      z-index: 1000;
+    }
+    .popup a {
+      display: block;
+      margin-bottom: 5px;
+      text-decoration: none;
+      color: #333;
+    }
+    .popup a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- 圖片區 -->
     <div class="image-area">
       <img src="2.jpg" alt="展示圖片">
     </div>
+
+    <!-- 資訊區 -->
     <div class="info-area">
       <div class="title">這是標題</div>
       <div class="icons">
@@ -98,27 +115,28 @@
         <button class="icon-button" onclick="togglePopup('social')">🌐</button>
         <button class="icon-button" onclick="togglePopup('other')">🔗</button>
       </div>
-      <div id="desc" class="popup">這是文字敘述的內容。</div>
-      <div id="social" class="popup">
-        <a href="https://twitter.com" target="_blank">Twitter</a><br>
-        <a href="https://facebook.com" target="_blank">Facebook</a><br>
-        <a href="https://instagram.com" target="_blank">Instagram</a>
-      </div>
-      <div id="other" class="popup">
-        <a href="#">其他連結 1</a><br>
-        <a href="#">其他連結 2</a>
-      </div>
+    </div>
+
+    <!-- 彈出浮磚 -->
+    <div id="desc" class="popup">這是文字敘述的內容。</div>
+    <div id="social" class="popup">
+      <a href="https://twitter.com" target="_blank">Twitter</a>
+      <a href="https://facebook.com" target="_blank">Facebook</a>
+      <a href="https://instagram.com" target="_blank">Instagram</a>
+    </div>
+    <div id="other" class="popup">
+      <a href="#">其他連結 1</a>
+      <a href="#">其他連結 2</a>
     </div>
   </div>
 
   <script>
     function togglePopup(id) {
       const popup = document.getElementById(id);
-      // 先關閉所有 popup
-      document.querySelectorAll('.popup').forEach(p => {
+      const allPopups = document.querySelectorAll('.popup');
+      allPopups.forEach(p => {
         if (p !== popup) p.style.display = 'none';
       });
-      // 切換點擊的 popup
       popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
     }
   </script>

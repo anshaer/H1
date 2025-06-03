@@ -1,376 +1,126 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>你的名字 - 個人連結</title>
-    <style>
-        :root {
-            --primary-color: #8e44ad; /* 主色調 */
-            --gradient-start: #f0e6fa;
-            --gradient-end: #d8e2dc;
-            --text-color: #333;
-            --link-color: #fff;
-            --link-hover-transform: translateY(-5px) scale(1.1);
-            --link-hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            --transition-speed: 0.3s ease;
-        }
-
-        html, body {
-            height: 100%; /* 確保 html 和 body 佔滿整個視窗高度 */
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
-            color: var(--text-color);
-            text-align: center;
-            overflow: auto; /* 允許滾動條出現，避免內容被裁切 */
-            position: relative;
-        }
-
-        /* 內容容器 - 橫屏時會是左右分欄，縱屏時會是上下堆疊 */
-        .content-wrapper {
-            display: flex;
-            flex-direction: column; /* 預設縱向堆疊 */
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            min-height: 100vh; /* 確保內容佔滿頁面，但會被 padding 影響 */
-            box-sizing: border-box;
-            padding: 20px; /* 全頁面但還是留點邊距 */
-        }
-
-        /* 頭像區域 */
-        .profile-area {
-            margin-bottom: 30px; /* 縱向時頭像下方的間距 */
-            width: 80%; /* 縱向時佔據容器寬度 */
-            max-width: 300px; /* 限制最大寬度 */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; /* 防止圖片溢出容器 */
-        }
-
-        .profile-pic {
-            width: 100%; /* 圖片寬度佔滿容器 */
-            height: auto; /* 高度自動調整以保持原比例 */
-            object-fit: contain; /* 確保圖片完整顯示，不裁剪 */
-            border: 4px solid var(--primary-color);
-            box-shadow: 0 0 15px rgba(142, 68, 173, 0.3);
-        }
-
-        /* 文字內容區域 */
-        .text-content-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* 縱向時文字居中 */
-            flex-grow: 1; /* 佔據剩餘空間 */
-            width: 100%;
-            max-width: 500px; /* 限制文字區域最大寬度 */
-        }
-
-        h1 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            font-size: 2.5em;
-        }
-
-        .short-description-wrapper {
-            font-size: 1.1em;
-            margin-bottom: 20px;
-            max-width: 90%;
-            cursor: pointer;
-            transition: all var(--transition-speed);
-            position: relative;
-            line-height: 1.5; /* 統一簡述行高 */
-            text-align: center; /* 縱向時文字居中 */
-        }
-
-        .short-description {
-            /* 預設限制為單行，並顯示省略號 */
-            display: block; /* 確保 p 元素是塊級元素 */
-            -webkit-line-clamp: 1; /* 限制為單行 */
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis; /* 標準屬性 */
-            line-height: inherit; /* 繼承 wrapper 的行高 */
-            margin: 0; /* 移除 p 元素的預設 margin */
-            padding: 0;
-            background-color: rgba(255, 255, 255, 0.7); /* 為了圖片中的藍色背景，這裡給個淡藍色半透明 */
-            border-radius: 8px;
-            padding: 10px 15px; /* 內部填充 */
-            box-sizing: border-box;
-            transition: all var(--transition-speed);
-        }
-
-        .short-description.expanded {
-            -webkit-line-clamp: unset; /* 移除行數限制 */
-            text-overflow: clip; /* 展開後不顯示省略號 */
-            white-space: normal; /* 正常換行 */
-            overflow: visible; /* 允許內容溢出 */
-            background-color: rgba(255, 255, 255, 0.9); /* 展開時更實一些 */
-        }
-
-        .toggle-text {
-            color: #666;
-            font-size: 0.8em;
-            display: block; /* 讓它獨立一行 */
-            margin-top: 5px; /* 與文字的間距 */
-            text-align: center;
-            white-space: nowrap; /* 防止換行 */
-        }
-
-        /* 連結圖示 */
-        .social-links {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center; /* 縱向時圖示居中 */
-            gap: 20px;
-            width: 100%;
-            max-width: 400px;
-            margin-top: 0px; /* 讓它緊隨簡述文字 */
-        }
-
-        .social-link-item {
-            text-decoration: none;
-            color: var(--link-color);
-            background-color: #a0a0a0;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2em;
-            transition: all var(--transition-speed);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Specific icon colors (保持不變) */
-        .social-link-item.facebook { background-color: #3b5998; }
-        .social-link-item.instagram { background-image: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-        .social-link-item.linkedin { background-color: #0077b5; }
-        .social-link-item.github { background-color: #333; }
-        .social-link-item.twitter { background-color: #1DA1F2; }
-        .social-link-item.youtube { background-color: #FF0000; }
-        .social-link-item.website { background-color: #4CAF50; }
-        .social-link-item.email { background-color: #D44638; }
-
-        .social-link-item:hover {
-            transform: var(--link-hover-transform);
-            box-shadow: var(--link-hover-shadow);
-        }
-
-        .social-link-item i {
-            pointer-events: none;
-        }
-
-        /* **橫屏模式 (長寬比大於1:1)** */
-        @media (orientation: landscape) and (min-aspect-ratio: 1/1) {
-            .content-wrapper {
-                flex-direction: row; /* 橫向排列 */
-                justify-content: center; /* 水平居中 */
-                align-items: center; /* 垂直居中 */
-                padding: 40px;
-                min-height: auto; /* 橫屏時高度自動，不再強制 100vh，避免被裁剪 */
-                height: 90vh; /* 限制最大高度為視窗的 90% */
-                max-width: 1200px; /* 限制橫屏時內容的最大寬度 */
-            }
-
-            .profile-area {
-                width: 40%; /* 佔據左半邊，讓頭像更大一些 */
-                height: 100%; /* 佔據 content-wrapper 的高度 */
-                max-width: 450px; /* 橫向時頭像區塊最大寬度 */
-                margin-right: 50px; /* 頭像與右側內容間距 */
-                margin-bottom: 0;
-                display: flex; /* 確保內部圖片能夠上下居中 */
-                justify-content: center;
-                align-items: center; /* 頭像在左半邊垂直居中 */
-            }
-
-            .profile-pic {
-                width: 90%; /* 圖片寬度佔 profile-area 的 90% */
-                height: auto;
-                max-height: 90%; /* 限制圖片最大高度，防止溢出 */
-                border-width: 6px;
-                box-shadow: 0 0 25px rgba(142, 68, 173, 0.4);
-            }
-
-            .text-content-area {
-                align-items: flex-start; /* 文字左對齊 */
-                text-align: left; /* 文字左對齊 */
-                width: 55%; /* 佔據右半邊 */
-                max-width: 700px;
-                flex-shrink: 1; /* 允許文字區塊縮小 */
-            }
-
-            h1 {
-                font-size: 3.5em;
-            }
-
-            .short-description-wrapper {
-                font-size: 1.2em;
-                margin-bottom: 30px;
-                max-width: 100%;
-                text-align: left; /* 橫屏時簡述文字靠左 */
-            }
-
-            .social-links {
-                justify-content: flex-start; /* 橫向時圖示靠左對齊 */
-                gap: 25px;
-                max-width: 100%;
-            }
-
-            .social-link-item {
-                width: 70px;
-                height: 70px;
-                font-size: 2.2em;
-            }
-        }
-
-        /* **小螢幕調整 (確保縱向手機效果)** */
-        @media (max-width: 600px) {
-            .profile-area {
-                width: 70%;
-                margin-bottom: 20px;
-            }
-            .profile-pic {
-                border-width: 3px;
-                box-shadow: 0 0 10px rgba(142, 68, 173, 0.2);
-            }
-            h1 {
-                font-size: 2em;
-            }
-            .short-description-wrapper {
-                font-size: 1em;
-                margin-bottom: 15px;
-            }
-            .social-links {
-                gap: 15px;
-            }
-            .social-link-item {
-                width: 50px;
-                height: 50px;
-                font-size: 1.6em;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>展示頁面</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #77d4ab;
+      height: 100%;
+      font-family: sans-serif;
+    }
+    .container {
+      width: 95%;
+      height: 95%;
+      margin: auto;
+      margin-top: 2.5%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background: transparent;
+      border: none;
+    }
+    .image-area {
+      flex: 1;
+      max-width: 175%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+    .image-area img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+    }
+    .info-area {
+      flex: 1;
+      position: relative;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding-left: 20px;
+    }
+    .title {
+      font-size: 2em;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 10px 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    }
+    .icons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .icon-button {
+      background-color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    .icon-button:hover {
+      transform: scale(1.1);
+    }
+    .popup {
+      position: absolute;
+      top: 70%;
+      left: 0;
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+      white-space: pre-wrap;
+      z-index: 999;
+    }
+  </style>
 </head>
 <body>
-    <div class="content-wrapper">
-        <div class="profile-area">
-            <img src="https://pbs.twimg.com/profile_banners/909103523320565760/1743871162/1080x360" alt="你的大頭貼" class="profile-pic">
-        </div>
-
-        <div class="text-content-area">
-            <h1>你的名字</h1>
-            <div class="short-description-wrapper" id="description-wrapper">
-                <p class="short-description" id="description-text">
-                    這是一個較長的個人簡介或Slogan範例，用來測試文字多時的效果。你可以在這裡放置你的專業、興趣、或是你的個人座右銘，它會自動換行，點擊後展開顯示全部內容，再點擊則收回為單行。請根據你的實際需求修改這段文字的內容，並確保其長度足以測試單行和多行的效果。
-                </p>
-                <span class="toggle-text" id="toggle-text"></span>
-            </div>
-            <div class="social-links">
-                <a href="你的Facebook網址" target="_blank" class="social-link-item facebook">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="你的Instagram網址" target="_blank" class="social-link-item instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="你的LinkedIn網址" target="_blank" class="social-link-item linkedin">
-                    <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a href="你的GitHub網址" target="_blank" class="social-link-item github">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="你的Twitter網址" target="_blank" class="social-link-item twitter">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="你的YouTube網址" target="_blank" class="social-link-item youtube">
-                    <i class="fab fa-youtube"></i>
-                </a>
-                <a href="你的個人網站網址" target="_blank" class="social-link-item website">
-                    <i class="fas fa-globe"></i>
-                </a>
-                <a href="mailto:你的Email信箱" class="social-link-item email">
-                    <i class="fas fa-envelope"></i>
-                </a>
-            </div>
-        </div>
+  <div class="container">
+    <div class="image-area">
+      <img src="your-image.jpg" alt="展示圖片">
     </div>
+    <div class="info-area">
+      <div class="title">這是標題</div>
+      <div class="icons">
+        <button class="icon-button" onclick="togglePopup('desc')">📄</button>
+        <button class="icon-button" onclick="window.open('https://youtube.com/yourvideo', '_blank')">▶️</button>
+        <button class="icon-button" onclick="togglePopup('social')">🌐</button>
+        <button class="icon-button" onclick="togglePopup('other')">🔗</button>
+      </div>
+      <div id="desc" class="popup">這是文字敘述的內容。</div>
+      <div id="social" class="popup">
+        <a href="https://twitter.com" target="_blank">Twitter</a><br>
+        <a href="https://facebook.com" target="_blank">Facebook</a><br>
+        <a href="https://instagram.com" target="_blank">Instagram</a>
+      </div>
+      <div id="other" class="popup">
+        <a href="#">其他連結 1</a><br>
+        <a href="#">其他連結 2</a>
+      </div>
+    </div>
+  </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const descriptionWrapper = document.getElementById('description-wrapper');
-            const descriptionText = document.getElementById('description-text');
-            const toggleTextSpan = document.getElementById('toggle-text');
-            const originalFullText = descriptionText.innerText; // 保存完整的原始文字
-            const truncatedLineCount = 1; // 簡述縮到一行
-
-            let isExpanded = false; // 用來追蹤當前狀態
-
-            function updateDescriptionDisplay() {
-                // 先將文字恢復到完整狀態，以便正確判斷其高度
-                descriptionText.classList.remove('expanded');
-                descriptionText.style.webkitLineClamp = 'unset';
-                descriptionText.innerText = originalFullText; // 確保是完整文字
-
-                // 檢查是否需要截斷
-                // 這是一個比較可靠的判斷方式：如果文字的實際內容高度超過單行高度，就截斷
-                // 需要考慮 `line-height`
-                const computedStyle = getComputedStyle(descriptionText);
-                const lineHeight = parseFloat(computedStyle.lineHeight);
-                const actualHeight = descriptionText.scrollHeight; // 內容的實際高度
-
-                // 計算單行文字的近似高度（可能需要微調）
-                const singleLineApproxHeight = lineHeight * truncatedLineCount + 2; // 增加少量容錯值
-
-                if (actualHeight > singleLineApproxHeight) {
-                    // 需要截斷
-                    descriptionText.style.webkitLineClamp = truncatedLineCount;
-                    toggleTextSpan.style.display = 'block'; // 顯示提示文字
-                    toggleTextSpan.innerText = isExpanded ? '...點擊收起' : '...點擊展開';
-                    descriptionWrapper.style.cursor = 'pointer';
-                } else {
-                    // 文字不夠長，不需要截斷
-                    descriptionText.style.webkitLineClamp = 'unset';
-                    toggleTextSpan.style.display = 'none'; // 隱藏提示文字
-                    descriptionWrapper.style.cursor = 'default';
-                }
-            }
-
-            // 初始化時檢查一次
-            updateDescriptionDisplay();
-
-            // 添加點擊事件
-            descriptionWrapper.addEventListener('click', function() {
-                // 只有當 toggleTextSpan 顯示時才觸發點擊事件，避免點擊短文字時的無效操作
-                if (toggleTextSpan.style.display === 'block') {
-                    isExpanded = !isExpanded; // 切換狀態
-                    if (isExpanded) {
-                        descriptionText.classList.add('expanded');
-                        toggleTextSpan.innerText = '...點擊收起';
-                    } else {
-                        descriptionText.classList.remove('expanded');
-                        toggleTextSpan.innerText = '...點擊展開';
-                    }
-                }
-            });
-
-            // 監聽視窗大小變化，重新判斷是否需要截斷
-            let resizeTimeout;
-            window.addEventListener('resize', function() {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(updateDescriptionDisplay, 100); // 延遲執行，避免頻繁觸發
-            });
-        });
-    </script>
+  <script>
+    function togglePopup(id) {
+      const popup = document.getElementById(id);
+      // 先關閉所有 popup
+      document.querySelectorAll('.popup').forEach(p => {
+        if (p !== popup) p.style.display = 'none';
+      });
+      // 切換點擊的 popup
+      popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
 </body>
 </html>

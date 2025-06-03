@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你的名字 - 個人連結</title>
+    <style>
+        body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+margin: 0;
+  background: linear-gradient(135deg, #f0e6fa 0%, #d8e2dc 100%);
+color: #333;
+text-align: center;
+}
+
+.container {
+    background-color: #fff;
+    padding: 30px; /* 調整手機上的內邊距 */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 90%; /* 手機上佔據更多寬度 */
+    width: 100%;
+    transition: transform 0.3s ease-in-out;
+    margin: 20px; /* 手機上增加外邊距 */
+}
+
+.container:hover {
+    transform: translateY(-5px);
+}
+
+.profile-pic {
+    width: 100px; /* 調整手機上的頭像大小 */
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px; /* 調整手機上的間距 */
+    border: 4px solid #8e44ad;
+    box-shadow: 0 0 15px rgba(142, 68, 173, 0.3);
+}
+
+h1 {
+    color: #8e44ad;
+    margin-bottom: 8px; /* 調整手機上的間距 */
+    font-size: 1.8em; /* 調整手機上的字體大小 */
+}
+
+p {
+    font-size: 0.9em; /* 調整手機上的字體大小 */
+    margin-bottom: 15px; /* 調整手機上的間距 */
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px; /* 調整手機上的圖示間距 */
+    margin-top: 20px; /* 調整手機上的間距 */
+}
+
+.social-link-item {
+    text-decoration: none;
+    color: #fff;
+    background-color: #a0a0a0;
+    width: 45px; /* 調整手機上的圖示大小 */
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4em; /* 調整手機上的圖示大小 */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Specific icon colors */
+.social-link-item.facebook { background-color: #3b5998; }
+.social-link-item.instagram { background-image: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+.social-link-item.linkedin { background-color: #0077b5; }
+.social-link-item.github { background-color: #333; }
+.social-link-item.twitter { background-color: #1DA1F2; }
+.social-link-item.youtube { background-color: #FF0000; }
+.social-link-item.website { background-color: #4CAF50; }
+.social-link-item.email { background-color: #D44638; }
+
+.social-link-item:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.social-link-item i {
+    pointer-events: none;
+}
+
+/* **針對小螢幕 (手機) 的樣式** */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+
+    .profile-pic {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 10px;
+    }
+
+    h1 {
+        font-size: 1.6em;
+    }
+
+    .social-links {
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .social-link-item {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2em;
+    }
+}
+
+/* **針對手機橫向模式的樣式** */
+@media (max-width: 900px) and (orientation: landscape) {
+    body {
+        align-items: flex-start; /* 橫向時靠頂部顯示 */
+        padding-top: 20px;
+    }
+
+    .container {
+        flex-direction: row; /* 橫向排列頭像和文字 */
+        align-items: center;
+        text-align: left;
+        padding: 20px;
+        max-width: 80%; /* 允許在橫向佔據更多空間 */
+    }
+
+    .profile-pic {
+        margin-right: 20px;
+        margin-bottom: 0;
+    }
+
+    .info {
+        margin-right: 20px;
+    }
+
+    .social-links {
+        margin-top: 0; /* 橫向時靠近文字 */
+        flex-direction: column; /* 圖示垂直排列 */
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .social-link-item {
+        width: 50px;
+        height: 50px;
+        font-size: 1.4em;
+    }
+}
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <img src="https://pbs.twimg.com/profile_images/1909786631877672962/5SAFWr7H_400x400.jpg" alt="你的大頭貼" class="profile-pic">
+        <h1>你的名字</h1>
+        <p>簡短的個人介紹或Slogan (可選)</p>
+
+        <div class="social-links">
+            <a href="你的Facebook網址" target="_blank" class="social-link-item facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="你的Instagram網址" target="_blank" class="social-link-item instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="你的LinkedIn網址" target="_blank" class="social-link-item linkedin">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="你的GitHub網址" target="_blank" class="social-link-item github">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="你的Twitter網址" target="_blank" class="social-link-item twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="你的YouTube網址" target="_blank" class="social-link-item youtube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="你的個人網站網址" target="_blank" class="social-link-item website">
+                <i class="fas fa-globe"></i>
+            </a>
+            <a href="mailto:你的Email信箱" class="social-link-item email">
+                <i class="fas fa-envelope"></i>
+            </a>
+            </div>
+    </div>
+</body>
+</html>

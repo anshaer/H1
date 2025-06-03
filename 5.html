@@ -31,17 +31,19 @@
         }
 
         .image-container {
-            width: 100%; /* 圖片容器佔滿資料區寬度 */
+            width: 100%; /* 圖片容器佔滿資料區寬度，但圖片會被限制在90%內 */
             display: flex;
             justify-content: flex-start; /* 圖片靠左貼齊資料顯示區左側邊界 */
             align-items: center;
             flex-grow: 1; /* 讓圖片容器盡可能佔據空間 */
-            position: relative; /* 為了讓圖片在特定情況下可以調整位置 */
+            position: relative;
         }
 
         .image-container img {
-            max-width: 100%; /* 等比縮放 */
-            height: auto; /* 等比縮放 */
+            max-width: 90%; /* 長寬不超過資料顯示區的90% */
+            max-height: 90%; /* 長寬不超過資料顯示區的90% */
+            width: auto; /* 保持圖片原始比例 */
+            height: auto; /* 保持圖片原始比例 */
             display: block; /* 移除圖片下方空白 */
             object-fit: contain; /* 確保圖片完整不裁切 */
         }
@@ -150,6 +152,11 @@
                 justify-content: center; /* 圖片在手機上置中 */
             }
 
+            .image-container img {
+                max-width: 100%; /* 在手機上，圖片容器已是90%，這裡讓圖片佔滿容器 */
+                max-height: 100%;
+            }
+
             .title-floating-box {
                 position: static; /* 標題恢復文件流，不再浮動定位 */
                 transform: none; /* 移除定位轉換 */
@@ -192,7 +199,7 @@
             }
 
             .image-container {
-                width: 50%; /* 圖片佔一半寬度 */
+                width: 50%; /* 圖片容器佔一半寬度 */
                 justify-content: flex-start; /* 圖片靠左對齊 */
             }
 

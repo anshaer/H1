@@ -1,127 +1,105 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的個人頁面</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            color: #333;
-            background-image: url('1.jpg'); /* 背景圖片 */
-            background-size: cover; /* 覆蓋整個頁面 */
-            background-position: center; /* 置中 */
-            background-repeat: no-repeat; /* 不重複 */
-            background-attachment: fixed; /* 固定背景 */
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>個人頁面</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: url('1.jpg') center center no-repeat;
+      background-size: cover;
+      font-family: sans-serif;
+      color: white;
+      height: 100%;
+    }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh; /* 確保內容至少佔滿整個視窗高度 */
-            text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+    }
 
-        .profile-picture {
-            display: none; /* 預設不顯示頭貼 */
-            max-width: 45%; /* 縱向螢幕時最大寬度 */
-            height: auto;
-            border-radius: 50%; /* 圓形頭貼 */
-            margin-bottom: 20px;
-        }
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2em 1em;
+    }
 
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            color: white; /* 讓標題在背景上更明顯 */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* 文字陰影 */
-        }
+    .avatar {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
 
-        .description {
-            font-size: 1.2em;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            max-width: 800px;
-            color: white; /* 讓敘述在背景上更明顯 */
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* 文字陰影 */
-        }
+    .title {
+      font-size: 2em;
+      margin: 0.5em 0 0.2em;
+    }
 
-        .links {
-            position: fixed;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-        }
+    .description {
+      font-size: 1.2em;
+      max-width: 600px;
+    }
 
-        .links a {
-            display: inline-block;
-            margin: 0 15px;
-            padding: 10px 20px;
-            background-color: rgba(0, 0, 0, 0.6); /* 連結背景 */
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
+    .links {
+      display: flex;
+      justify-content: center;
+      gap: 1em;
+      padding: 1em;
+      flex-wrap: wrap;
+    }
 
-        .links a:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
+    .links a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5em 1em;
+      border: 1px solid white;
+      border-radius: 5px;
+    }
 
-        /* 橫向螢幕 (桌面/平板橫放) */
-        @media (orientation: landscape) {
-            .container {
-                justify-content: flex-start; /* 標題靠上 */
-                padding-top: 10vh; /* 調整標題位置 */
-            }
-            h1 {
-                text-align: center; /* 標題置中 */
-            }
-            .description {
-                text-align: center; /* 敘述置中 */
-            }
-            .profile-picture {
-                display: none; /* 不顯示頭貼 */
-            }
-        }
+    /* 橫屏樣式 */
+    @media (orientation: landscape) {
+      .avatar {
+        display: block;
+        margin-bottom: 1em;
+      }
 
-        /* 縱向螢幕 (手機/平板直放) */
-        @media (orientation: portrait) {
-            .container {
-                justify-content: flex-start; /* 標題靠上 */
-                padding-top: 5vh; /* 調整標題位置 */
-            }
-            .profile-picture {
-                display: block; /* 顯示頭貼 */
-                margin-top: 20px; /* 調整頭貼上方間距 */
-            }
-            h1 {
-                margin-top: 20px; /* 標題在頭貼下方 */
-            }
-        }
-    </style>
+      .title {
+        margin-top: 0.5em;
+      }
+    }
+
+    /* 直屏樣式 */
+    @media (orientation: portrait) {
+      .avatar {
+        width: 45vw;
+        height: auto;
+        border-radius: 10%;
+      }
+
+      .title {
+        margin-top: 1em;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <img src="2.jpg" alt="頭貼" class="profile-picture">
-        <h1>您的標題</h1>
-        <p class="description">
-            這是您的敘述文字，可以在這裡介紹您自己，或是分享一些有趣的內容。
-            請根據您的需求，隨意修改這段文字，讓它更符合您的個人風格。
-        </p>
-    </div>
+  <div class="content">
+    <img src="2.jpg" alt="頭貼" class="avatar" />
+    <h1 class="title">這是我的標題</h1>
+    <p class="description">這是一段關於我的簡短敘述，歡迎來到我的個人網站！</p>
+  </div>
 
-    <div class="links">
-        <a href="https://x.com/mayunekobaby/status/1929849181373714938?t=xVrLz6j9AuUGj1HUnGyP9g&s=19">連結一</a>
-        <a href="#">連結二</a>
-        <a href="#">連結三</a>
-        <a href="#">連結四</a>
-    </div>
+  <div class="links">
+    <a href="#">連結1</a>
+    <a href="#">連結2</a>
+    <a href="#">連結3</a>
+    <a href="#">連結4</a>
+  </div>
 </body>
 </html>

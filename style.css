@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: sans-serif;
-    background-image: url('背景1.jpg'); /* 設置背景圖片 */
+    background-image: url('1.jpg'); /* 設置背景圖片 */
     background-size: cover; /* 讓背景圖片覆蓋整個視窗 */
     background-position: center; /* 讓背景圖片居中 */
     background-attachment: fixed; /* 背景圖片固定，不隨滾動條滾動 */

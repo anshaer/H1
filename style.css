@@ -15,12 +15,7 @@ body {
 }
 
 .container {
-    /* 移除背景色和邊框 */
-    /* background-color: rgba(0, 0, 0, 0.7); */
-    /* border-radius: 15px; */
     padding: 30px;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
-    
     display: flex; /* 使用 Flexbox 布局 */
     gap: 30px; /* 元素之間的間距 */
     max-width: 1000px; /* 限制最大寬度，保持桌面排版良好 */
@@ -37,8 +32,6 @@ body {
     height: 200px; /* 橫式畫面下照片的固定高度 */
     object-fit: cover; /* 確保圖片填充容器並保持比例 */
     border-radius: 10px; /* 圓角照片 */
-    /* 移除照片邊框 */
-    /* border: 3px solid #f0f0f0; */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 為照片增加一些陰影，使其突出 */
 }
 
@@ -46,15 +39,10 @@ body {
     flex-grow: 1; /* 內容部分填充剩餘空間 */
     display: flex;
     flex-direction: column; /* 內容內部元素垂直排列 */
-    /* justify-content: space-between; /* 移除，因為現在是線性排列 */ */
 }
 
 .name {
-    /* 移除背景色 */
-    /* background-color: #FFD700; */
     color: white; /* 名字文字顏色，以適應背景圖片 */
-    /* padding: 10px 15px; */
-    /* border-radius: 8px; */
     text-align: left; /* 名字靠左對齊 */
     font-size: 2.5em; /* 稍微放大名字 */
     margin-bottom: 15px; /* 名字下方間距 */
@@ -62,24 +50,18 @@ body {
 }
 
 .links-section {
-    /* 移除背景色 */
-    /* background-color: #3CB371; */
-    /* padding: 10px 0; /* 調整內邊距 */ */
-    /* border-radius: 8px; */
     display: flex;
     flex-wrap: wrap; /* 連結多時自動換行 */
     justify-content: flex-start; /* 連結靠左對齊 */
     gap: 20px; /* 連結之間的間距 */
-    margin-bottom: 25px; /* 連結下方間距 */
+    margin-bottom: 10px; /* **關鍵修改：縮小連結與敘述之間的間距** */
 }
 
 .link-item {
     color: #ADD8E6; /* 連結文字顏色，使其更突出 */
     text-decoration: none;
     font-size: 1.1em;
-    padding: 5px 0; /* 移除背景和邊框後，調整內邊距 */
-    /* border: 1px solid white; */
-    /* border-radius: 5px; */
+    padding: 5px 0; /* 調整內邊距 */
     transition: color 0.3s ease, text-shadow 0.3s ease;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* 連結文字陰影 */
 }
@@ -90,14 +72,9 @@ body {
 }
 
 .description {
-    /* 移除背景色 */
-    /* background-color: #EE82EE; */
     color: #F0F8FF; /* 敘述文字顏色，稍淺的白色 */
-    /* padding: 15px; */
-    /* border-radius: 8px; */
     line-height: 1.8; /* 調整行高，提高可讀性 */
-    /* flex-grow: 1; /* 移除，因為現在是線性排列 */ */
-    margin-top: 0; /* 確保敘述上方沒有多餘間距 */
+    margin-top: 0; /* **關鍵修改：移除敘述上方的外部間距** */
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* 敘述文字陰影 */
     font-size: 1.1em;
 }
@@ -132,7 +109,7 @@ body {
     .links-section {
         justify-content: center; /* 連結在手機模式下居中 */
         gap: 15px; /* 調整手機模式下連結間距 */
-        margin-bottom: 20px; /* 調整手機模式下的間距 */
+        margin-bottom: 15px; /* **關鍵修改：調整手機模式下連結與敘述的間距** */
     }
 
     .description {
@@ -157,9 +134,7 @@ body {
     }
 
     .link-item {
-        /* width: 80%; /* 連結佔據大部分寬度 */ */
         text-align: center;
-        /* margin: 0 auto; /* 居中 */ */
         font-size: 1em;
     }
 

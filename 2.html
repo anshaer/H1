@@ -103,13 +103,11 @@
             }
 
             .profile-photo {
-                object-fit: contain;
-            width: 15vw;
-            height: auto;
-            max-width: 200px;
-            max-height: 200px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+                width: 30vw; /* 例如手機視窗寬度的 30% */
+                height: auto; /* 保持比例 */
+                max-width: 160px; /* 手機模式下的最大寬度 */
+                max-height: 160px; /* 手機模式下的最大高度 */
+                margin-bottom: 0; /* 照片下方間距，因為container已有gap */
             }
 
             .content-section {

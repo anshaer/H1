@@ -1,0 +1,45 @@
+{
+  "pageTitle": "我的個人簡介",
+  "background": {
+    "image": "1.jpg",
+    "size": "cover",
+    "position": "center",
+    "attachment": "fixed"
+  },
+  "profilePhoto": {
+    "src": "2.jpg",
+    "alt": "我的大頭貼"
+  },
+  "name": {
+    "text": "你的名字",
+    "color": "white",
+    "fontSize": "2.5em"
+  },
+  "links": [
+    {
+      "text": "GitHub",
+      "url": "https://github.com/your-github",
+      "icon": "fa-github"
+    },
+    {
+      "text": "LinkedIn",
+      "url": "https://linkedin.com/in/your-linkedin",
+      "icon": "fa-linkedin"
+    },
+    {
+      "text": "個人網站",
+      "url": "https://your-website.com",
+      "icon": "fa-globe"
+    },
+    {
+      "text": "Email",
+      "url": "mailto:your-email@example.com",
+      "icon": "fa-envelope"
+    }
+  ],
+  "description": {
+    "text": "這是一個關於我的詳細敘述。你可以寫下你的興趣、專長、經歷，或是任何你想分享的個人資訊。透過這個頁面，訪客可以更了解你。",
+    "color": "#F0F8FF",
+    "lineHeight": 1.8
+  }
+}

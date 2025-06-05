@@ -1,31 +1,34 @@
 body {
     margin: 0;
     font-family: sans-serif;
-    background-image: url('2.jpg'); /* 設置背景圖片 */
+    background-image: url('背景1.jpg'); /* 設置背景圖片 */
     background-size: cover; /* 讓背景圖片覆蓋整個視窗 */
     background-position: center; /* 讓背景圖片居中 */
+    background-attachment: fixed; /* 背景圖片固定，不隨滾動條滾動 */
     min-height: 100vh; /* 確保背景至少佔滿整個視窗高度 */
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px; /* 增加一些內邊距，防止內容貼邊 */
     box-sizing: border-box; /* 確保內邊距包含在寬度內 */
+    color: white; /* 預設文字顏色為白色，因為背景是圖片 */
 }
 
 .container {
-    background-color: rgba(0, 0, 0, 0.7); /* 半透明背景，讓背景圖片可見 */
-    border-radius: 15px;
+    /* 移除背景色和邊框 */
+    /* background-color: rgba(0, 0, 0, 0.7); */
+    /* border-radius: 15px; */
     padding: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    color: white; /* 內容文字顏色 */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+    
     display: flex; /* 使用 Flexbox 布局 */
     gap: 30px; /* 元素之間的間距 */
     max-width: 1000px; /* 限制最大寬度，保持桌面排版良好 */
     width: 100%; /* 讓容器在小螢幕上可以佔滿寬度 */
+    align-items: flex-start; /* 確保照片和內容在頂部對齊 */
 }
 
 .photo-section {
-    /* 橫式畫面下，照片部分佔據左側 */
     flex-shrink: 0; /* 防止照片縮小 */
 }
 
@@ -34,57 +37,69 @@ body {
     height: 200px; /* 橫式畫面下照片的固定高度 */
     object-fit: cover; /* 確保圖片填充容器並保持比例 */
     border-radius: 10px; /* 圓角照片 */
-    border: 3px solid #f0f0f0; /* 照片邊框 */
+    /* 移除照片邊框 */
+    /* border: 3px solid #f0f0f0; */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 為照片增加一些陰影，使其突出 */
 }
 
 .content-section {
     flex-grow: 1; /* 內容部分填充剩餘空間 */
     display: flex;
     flex-direction: column; /* 內容內部元素垂直排列 */
-    justify-content: space-between; /* 在內容部分內部元素之間平均分配空間 */
+    /* justify-content: space-between; /* 移除，因為現在是線性排列 */ */
 }
 
 .name {
-    background-color: #FFD700; /* 名字的背景顏色 */
-    color: #333;
-    padding: 10px 15px;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 2em;
-    margin-bottom: 20px; /* 名字下方間距 */
-}
-
-.description {
-    background-color: #EE82EE; /* 敘述的背景顏色 */
-    color: #333;
-    padding: 15px;
-    border-radius: 8px;
-    line-height: 1.6;
-    flex-grow: 1; /* 敘述部分填充剩餘空間，防止被擠壓 */
-    margin-bottom: 20px; /* 敘述下方間距 */
+    /* 移除背景色 */
+    /* background-color: #FFD700; */
+    color: white; /* 名字文字顏色，以適應背景圖片 */
+    /* padding: 10px 15px; */
+    /* border-radius: 8px; */
+    text-align: left; /* 名字靠左對齊 */
+    font-size: 2.5em; /* 稍微放大名字 */
+    margin-bottom: 15px; /* 名字下方間距 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* 為文字增加陰影，提高可讀性 */
 }
 
 .links-section {
-    background-color: #3CB371; /* 連結的背景顏色 */
-    padding: 10px 15px;
-    border-radius: 8px;
+    /* 移除背景色 */
+    /* background-color: #3CB371; */
+    /* padding: 10px 0; /* 調整內邊距 */ */
+    /* border-radius: 8px; */
     display: flex;
     flex-wrap: wrap; /* 連結多時自動換行 */
-    justify-content: center; /* 連結居中顯示 */
-    gap: 15px; /* 連結之間的間距 */
+    justify-content: flex-start; /* 連結靠左對齊 */
+    gap: 20px; /* 連結之間的間距 */
+    margin-bottom: 25px; /* 連結下方間距 */
 }
 
 .link-item {
-    color: white;
+    color: #ADD8E6; /* 連結文字顏色，使其更突出 */
     text-decoration: none;
-    padding: 8px 12px;
-    border: 1px solid white;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    font-size: 1.1em;
+    padding: 5px 0; /* 移除背景和邊框後，調整內邊距 */
+    /* border: 1px solid white; */
+    /* border-radius: 5px; */
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* 連結文字陰影 */
 }
 
 .link-item:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    color: #FFFFFF; /* 鼠標懸停時顏色變白 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.description {
+    /* 移除背景色 */
+    /* background-color: #EE82EE; */
+    color: #F0F8FF; /* 敘述文字顏色，稍淺的白色 */
+    /* padding: 15px; */
+    /* border-radius: 8px; */
+    line-height: 1.8; /* 調整行高，提高可讀性 */
+    /* flex-grow: 1; /* 移除，因為現在是線性排列 */ */
+    margin-top: 0; /* 確保敘述上方沒有多餘間距 */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* 敘述文字陰影 */
+    font-size: 1.1em;
 }
 
 /* ====== 手機直式畫面 (小於等於 768px 寬度) ====== */
@@ -92,46 +107,48 @@ body {
     .container {
         flex-direction: column; /* 將主容器改為垂直排列 */
         align-items: center; /* 垂直居中 */
-        padding: 20px;
-        max-width: 90%; /* 在小螢幕上佔據更多寬度 */
+        padding: 20px 15px; /* 調整手機內邊距 */
+        max-width: 95%; /* 在小螢幕上佔據更多寬度 */
+        gap: 20px; /* 垂直排列時的間距 */
     }
 
     .profile-photo {
-        width: 150px; /* 手機直式畫面下照片的寬度 */
-        height: 150px; /* 手機直式畫面下照片的高度 */
-        margin-bottom: 20px; /* 照片下方間距 */
+        width: 160px; /* 手機直式畫面下照片的寬度 */
+        height: 160px; /* 手機直式畫面下照片的高度 */
+        margin-bottom: 0; /* 照片下方間距，因為container已有gap */
     }
 
     .content-section {
         width: 100%; /* 內容部分佔據全部寬度 */
-    }
-
-    .name,
-    .description,
-    .links-section {
-        width: auto; /* 讓這些元素自動適應內容區塊的寬度 */
-        margin-left: 0;
-        margin-right: 0;
-        margin-bottom: 15px; /* 調整手機模式下的間距 */
+        align-items: center; /* 讓內容在手機模式下居中 */
     }
 
     .name {
-        font-size: 1.8em;
+        font-size: 2.2em;
+        text-align: center; /* 手機模式下名字居中 */
+        margin-bottom: 10px; /* 調整手機模式下的間距 */
+    }
+
+    .links-section {
+        justify-content: center; /* 連結在手機模式下居中 */
+        gap: 15px; /* 調整手機模式下連結間距 */
+        margin-bottom: 20px; /* 調整手機模式下的間距 */
+    }
+
+    .description {
+        font-size: 1em;
+        text-align: center; /* 手機模式下敘述居中 */
     }
 }
 
 /* 更小的手機橫式或極小螢幕 */
 @media (max-width: 480px) {
     .container {
-        padding: 15px;
+        padding: 15px 10px;
     }
 
     .name {
-        font-size: 1.5em;
-    }
-
-    .description {
-        font-size: 0.9em;
+        font-size: 1.8em;
     }
 
     .links-section {
@@ -140,8 +157,13 @@ body {
     }
 
     .link-item {
-        width: 80%; /* 連結佔據大部分寬度 */
+        /* width: 80%; /* 連結佔據大部分寬度 */ */
         text-align: center;
-        margin: 0 auto; /* 居中 */
+        /* margin: 0 auto; /* 居中 */ */
+        font-size: 1em;
+    }
+
+    .description {
+        font-size: 0.95em;
     }
 }

@@ -4,13 +4,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>個人簡介</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* CSS 代碼從這裡開始 */
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background-image: url('1.jpg'); /* 設置背景圖片，名稱已改為 1.jpg */
+            background-size: cover; /* 讓背景圖片覆蓋整個視窗 */
+            background-position: center; /* 讓背景圖片居中 */
+            background-attachment: fixed; /* 背景圖片固定，不隨滾動條滾動 */
+            min-height: 100vh; /* 確保背景至少佔滿整個視窗高度 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px; /* 增加一些內邊距，防止內容貼邊 */
+            box-sizing: border-box; /* 確保內邊距包含在寬度內 */
+            color: white; /* 預設文字顏色為白色，因為背景是圖片 */
+        }
+
+        .container {
+            padding: 30px;
+            display: flex; /* 使用 Flexbox 布局 */
+            gap: 30px; /* 元素之間的間距 */
+            max-width: 1000px; /* 限制最大寬度，保持桌面排版良好 */
+            width: 100%; /* 讓容器在小螢幕上可以佔滿寬度 */
+            align-items: flex-start; /* 確保照片和內容在頂部對齊 */
+        }
+
+        .photo-section {
+            flex-shrink: 0; /* 防止照片縮小 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-photo {
+            object-fit: contain; /* 確保圖片縮放以適應容器，且不被裁切 */
+            width: 15vw; /* 彈性寬度，例如視窗寬度的 15% */
+            height: auto; /* 讓高度自動調整以保持圖片比例 */
+            max-width: 200px; /* 設置一個最大寬度，防止在超大螢幕上過大 */
+            max-height: 200px; /* 設置一個最大高度，防止在超大螢幕上過高 */
+            border-radius: 10px; /* 圓角照片 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 為照片增加一些陰影，使其突出 */
+        }
+
+        .content-section {
+            flex-grow: 1; /* 內容部分填充剩餘空間 */
+            display: flex;
+            flex-direction: column; /* 內容內部元素垂直排列 */
+        }
+
+        .name {
+            color: white; /* 名字文字顏色，以適應背景圖片 */
+            text-align: left; /* 名字靠左對齊 */
+            font-size: 2.5em; /* 稍微放大名字 */
+            margin-bottom: 15px; /* 名字下方間距 */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* 為文字增加陰影，提高可讀性 */
+        }
+
+        .links-section {
+            display: flex;
+            flex-wrap: wrap; /* 連結多時自動換行 */
+            justify-content: flex-start; /* 連結靠左對齊 */
+            gap: 20px; /* 連結之間的間距 */
+            margin-bottom: 10px; /* 縮小連結與敘述之間的間距 */
+        }
+
+        .link-item {
+            color: #ADD8E6; /* 連結文字顏色，使其更突出 */
+            text-decoration: none;
+            font-size: 1.1em;
+            padding: 5px 0; /* 調整內邊距 */
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* 連結文字陰影 */
+        }
+
+        .link-item:hover {
+            color: #FFFFFF; /* 鼠標懸停時顏色變白 */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .description {
+            color: #F0F8FF; /* 敘述文字顏色，稍淺的白色 */
+            line-height: 1.8; /* 調整行高，提高可讀性 */
+            margin-top: 0; /* 移除敘述上方的外部間距 */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* 敘述文字陰影 */
+            font-size: 1.1em;
+        }
+
+        /* ====== 手機直式畫面 (小於等於 768px 寬度) ====== */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column; /* 將主容器改為垂直排列 */
+                align-items: center; /* 垂直居中 */
+                padding: 20px 15px; /* 調整手機內邊距 */
+                max-width: 95%; /* 在小螢幕上佔據更多寬度 */
+                gap: 20px; /* 垂直排列時的間距 */
+            }
+
+            .profile-photo {
+                width: 30vw; /* 例如手機視窗寬度的 30% */
+                height: auto; /* 保持比例 */
+                max-width: 160px; /* 手機模式下的最大寬度 */
+                max-height: 160px; /* 手機模式下的最大高度 */
+                margin-bottom: 0; /* 照片下方間距，因為container已有gap */
+            }
+
+            .content-section {
+                width: 100%; /* 內容部分佔據全部寬度 */
+                align-items: center; /* 讓內容在手機模式下居中 */
+            }
+
+            .name {
+                font-size: 2.2em;
+                text-align: center; /* 手機模式下名字居中 */
+                margin-bottom: 10px; /* 調整手機模式下的間距 */
+            }
+
+            .links-section {
+                justify-content: center; /* 連結在手機模式下居中 */
+                gap: 15px; /* 調整手機模式下連結間距 */
+                margin-bottom: 15px; /* 調整手機模式下連結與敘述的間距 */
+            }
+
+            .description {
+                font-size: 1em;
+                text-align: center; /* 手機模式下敘述居中 */
+            }
+        }
+
+        /* 更小的手機橫式或極小螢幕 */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px 10px;
+            }
+
+            .name {
+                font-size: 1.8em;
+            }
+
+            .links-section {
+                flex-direction: column; /* 連結也垂直排列 */
+                gap: 10px;
+            }
+
+            .link-item {
+                text-align: center;
+                font-size: 1em;
+            }
+
+            .description {
+                font-size: 0.95em;
+            }
+        }
+        /* CSS 代碼到這裡結束 */
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="photo-section">
-            <img src="2.jpg" alt="個人照片" class="profile-photo">
-        </div>
+            <img src="2.jpg" alt="個人照片" class="profile-photo"> </div>
         <div class="content-section">
             <h1 class="name">名字</h1>
             <div class="links-section">

@@ -25,12 +25,33 @@ body {
 
 .photo-section {
     flex-shrink: 0; /* 防止照片縮小 */
+    /* 新增：為照片容器設定一個相對彈性的寬度，並保持其內容居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 給photo-section一個彈性的基礎寬度，或者讓他內容決定大小 */
+    /* flex-basis: 25%; /* 讓照片區域佔據容器的約25%，可以根據實際效果調整 */ */
+    /* 或者不設定 flex-basis，讓圖片自己決定大小 */
 }
 
 .profile-photo {
-    width: 200px; /* 橫式畫面下照片的固定寬度 */
-    height: 200px; /* 橫式畫面下照片的固定高度 */
-    object-fit: cover; /* 確保圖片填充容器並保持比例 */
+    /* 移除固定的 width 和 height */
+    /* width: 200px; */
+    /* height: 200px; */
+
+    /* 關鍵修改：讓圖片保持比例且不裁切 */
+    object-fit: contain; /* 確保圖片縮放以適應容器，且不被裁切 */
+
+    /* 彈性寬度：頁面寬度的 10% */
+    /* 注意：直接 10vw 可能會太小，但如果這是您的明確需求，請使用它。 */
+    /* 我會給一個相對合理的彈性範圍，並設定最大值 */
+    width: 15vw; /* 彈性寬度，例如視窗寬度的 15% */
+    height: auto; /* 讓高度自動調整以保持圖片比例 */
+
+    max-width: 200px; /* 設置一個最大寬度，防止在超大螢幕上過大 */
+    max-height: 200px; /* 設置一個最大高度，防止在超大螢幕上過高 */
+
+
     border-radius: 10px; /* 圓角照片 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 為照片增加一些陰影，使其突出 */
 }
@@ -54,7 +75,7 @@ body {
     flex-wrap: wrap; /* 連結多時自動換行 */
     justify-content: flex-start; /* 連結靠左對齊 */
     gap: 20px; /* 連結之間的間距 */
-    margin-bottom: 10px; /* **關鍵修改：縮小連結與敘述之間的間距** */
+    margin-bottom: 10px; /* 縮小連結與敘述之間的間距 */
 }
 
 .link-item {
@@ -74,7 +95,7 @@ body {
 .description {
     color: #F0F8FF; /* 敘述文字顏色，稍淺的白色 */
     line-height: 1.8; /* 調整行高，提高可讀性 */
-    margin-top: 0; /* **關鍵修改：移除敘述上方的外部間距** */
+    margin-top: 0; /* 移除敘述上方的外部間距 */
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* 敘述文字陰影 */
     font-size: 1.1em;
 }
@@ -90,8 +111,11 @@ body {
     }
 
     .profile-photo {
-        width: 160px; /* 手機直式畫面下照片的寬度 */
-        height: 160px; /* 手機直式畫面下照片的高度 */
+        /* 手機模式下，照片的彈性寬度 */
+        width: 30vw; /* 例如手機視窗寬度的 30% */
+        height: auto; /* 保持比例 */
+        max-width: 160px; /* 手機模式下的最大寬度 */
+        max-height: 160px; /* 手機模式下的最大高度 */
         margin-bottom: 0; /* 照片下方間距，因為container已有gap */
     }
 
@@ -109,7 +133,7 @@ body {
     .links-section {
         justify-content: center; /* 連結在手機模式下居中 */
         gap: 15px; /* 調整手機模式下連結間距 */
-        margin-bottom: 15px; /* **關鍵修改：調整手機模式下連結與敘述的間距** */
+        margin-bottom: 15px; /* 調整手機模式下連結與敘述的間距 */
     }
 
     .description {

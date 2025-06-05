@@ -3,137 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人簡介</title>
-    <style>
-        /* CSS 代碼從這裡開始 */
+    <title id="pageTitle">個人簡介</title> <style>
         body {
             margin: 0;
             font-family: sans-serif;
-            background-image: url('1.jpg'); /* 設置背景圖片，名稱已改為 1.jpg */
-            background-size: cover; /* 讓背景圖片覆蓋整個視窗 */
-            background-position: center; /* 讓背景圖片居中 */
-            background-attachment: fixed; /* 背景圖片固定，不隨滾動條滾動 */
-            min-height: 100vh; /* 確保背景至少佔滿整個視窗高度 */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px; /* 增加一些內邊距，防止內容貼邊 */
-            box-sizing: border-box; /* 確保內邊距包含在寬度內 */
-            color: white; /* 預設文字顏色為白色，因為背景是圖片 */
+            padding: 20px;
+            box-sizing: border-box;
+            color: white;
         }
 
         .container {
             padding: 30px;
-            display: flex; /* 使用 Flexbox 布局 */
-            gap: 30px; /* 元素之間的間距 */
-            max-width: 1000px; /* 限制最大寬度，保持桌面排版良好 */
-            width: 100%; /* 讓容器在小螢幕上可以佔滿寬度 */
-            align-items: flex-start; /* 確保照片和內容在頂部對齊 */
+            display: flex;
+            gap: 30px;
+            max-width: 1000px;
+            width: 100%;
+            align-items: flex-start;
         }
 
         .photo-section {
-            flex-shrink: 0; /* 防止照片縮小 */
+            flex-shrink: 0;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .profile-photo {
-            object-fit: contain; /* 確保圖片縮放以適應容器，且不被裁切 */
-            width: 15vw; /* 彈性寬度，例如視窗寬度的 15% */
-            height: auto; /* 讓高度自動調整以保持圖片比例 */
-            max-width: 200px; /* 設置一個最大寬度，防止在超大螢幕上過大 */
-            max-height: 200px; /* 設置一個最大高度，防止在超大螢幕上過高 */
-            border-radius: 10px; /* 圓角照片 */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0); /* 為照片增加一些陰影，使其突出 */
+            object-fit: contain;
+            width: 15vw;
+            height: auto;
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
         }
 
         .content-section {
-            flex-grow: 1; /* 內容部分填充剩餘空間 */
+            flex-grow: 1;
             display: flex;
-            flex-direction: column; /* 內容內部元素垂直排列 */
+            flex-direction: column;
         }
 
         .name {
-            color: white; /* 名字文字顏色，以適應背景圖片 */
-            text-align: left; /* 名字靠左對齊 */
-            font-size: 2.5em; /* 稍微放大名字 */
-            margin-bottom: 15px; /* 名字下方間距 */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* 為文字增加陰影，提高可讀性 */
+            color: white;
+            text-align: left;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
 
         .links-section {
             display: flex;
-            flex-wrap: wrap; /* 連結多時自動換行 */
-            justify-content: flex-start; /* 連結靠左對齊 */
-            gap: 20px; /* 連結之間的間距 */
-            margin-bottom: 10px; /* 縮小連結與敘述之間的間距 */
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 20px;
+            margin-bottom: 10px;
         }
 
         .link-item {
-            color: #ADD8E6; /* 連結文字顏色，使其更突出 */
+            color: #ADD8E6;
             text-decoration: none;
             font-size: 1.1em;
-            padding: 5px 0; /* 調整內邊距 */
+            padding: 5px 0;
             transition: color 0.3s ease, text-shadow 0.3s ease;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* 連結文字陰影 */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            display: flex; /* Allow icon and text to sit together */
+            align-items: center; /* Vertically align icon and text */
+            gap: 5px; /* Space between icon and text */
+        }
+
+        .link-item i {
+            font-size: 1.2em; /* Adjust icon size */
         }
 
         .link-item:hover {
-            color: #FFFFFF; /* 鼠標懸停時顏色變白 */
+            color: #FFFFFF;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
 
         .description {
-            color: #F0F8FF; /* 敘述文字顏色，稍淺的白色 */
-            line-height: 1.8; /* 調整行高，提高可讀性 */
-            margin-top: 0; /* 移除敘述上方的外部間距 */
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* 敘述文字陰影 */
+            color: #F0F8FF;
+            line-height: 1.8;
+            margin-top: 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
             font-size: 1.1em;
         }
 
-        /* ====== 手機直式畫面 (小於等於 768px 寬度) ====== */
+        /* Responsive styles */
         @media (max-width: 768px) {
             .container {
-                flex-direction: column; /* 將主容器改為垂直排列 */
-                align-items: center; /* 垂直居中 */
-                padding: 20px 15px; /* 調整手機內邊距 */
-                max-width: 95%; /* 在小螢幕上佔據更多寬度 */
-                gap: 20px; /* 垂直排列時的間距 */
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 15px;
+                max-width: 95%;
+                gap: 20px;
             }
 
             .profile-photo {
-                width: 30vw; /* 例如手機視窗寬度的 30% */
-                height: auto; /* 保持比例 */
-                max-width: 160px; /* 手機模式下的最大寬度 */
-                max-height: 160px; /* 手機模式下的最大高度 */
-                margin-bottom: 0; /* 照片下方間距，因為container已有gap */
+                width: 30vw;
+                height: auto;
+                max-width: 160px;
+                max-height: 160px;
+                margin-bottom: 0;
             }
 
             .content-section {
-                width: 100%; /* 內容部分佔據全部寬度 */
-                align-items: center; /* 讓內容在手機模式下居中 */
+                width: 100%;
+                align-items: center;
             }
 
             .name {
                 font-size: 2.2em;
-                text-align: center; /* 手機模式下名字居中 */
-                margin-bottom: 10px; /* 調整手機模式下的間距 */
+                text-align: center;
+                margin-bottom: 10px;
             }
 
             .links-section {
-                justify-content: center; /* 連結在手機模式下居中 */
-                gap: 15px; /* 調整手機模式下連結間距 */
-                margin-bottom: 15px; /* 調整手機模式下連結與敘述的間距 */
+                justify-content: center;
+                gap: 15px;
+                margin-bottom: 15px;
             }
 
             .description {
                 font-size: 1em;
-                text-align: center; /* 手機模式下敘述居中 */
+                text-align: center;
             }
         }
 
-        /* 更小的手機橫式或極小螢幕 */
         @media (max-width: 480px) {
             .container {
                 padding: 15px 10px;
@@ -144,7 +147,7 @@
             }
 
             .links-section {
-                flex-direction: column; /* 連結也垂直排列 */
+                flex-direction: column;
                 gap: 10px;
             }
 
@@ -157,22 +160,78 @@
                 font-size: 0.95em;
             }
         }
-        /* CSS 代碼到這裡結束 */
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <div class="photo-section">
-            <img src="2.jpg" alt="個人照片" class="profile-photo"> </div>
+            <img src="" alt="個人照片" class="profile-photo" id="profilePhoto"> </div>
         <div class="content-section">
-            <h1 class="name">名字</h1>
-            <div class="links-section">
-                <a href="#" class="link-item">連結1</a>
-                <a href="#" class="link-item">連結2</a>
-                <a href="#" class="link-item">連結3</a>
+            <h1 class="name" id="profileName"></h1> <div class="links-section" id="linksSection">
                 </div>
-            <p class="description">詳細敘述</p>
-        </div>
+            <p class="description" id="profileDescription"></p> </div>
     </div>
+
+    <script>
+        // JavaScript to load content from JSON
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('data.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Update Page Title
+                    document.getElementById('pageTitle').textContent = data.pageTitle;
+
+                    // Update Body Background
+                    document.body.style.backgroundImage = `url('${data.background.image}')`;
+                    // You can add more background parameters if needed, e.g., data.background.size, data.background.position
+
+                    // Update Profile Photo
+                    const profilePhoto = document.getElementById('profilePhoto');
+                    profilePhoto.src = data.profilePhoto.src;
+                    profilePhoto.alt = data.profilePhoto.alt;
+                    // You can add more photo parameters here if needed, e.g., data.profilePhoto.borderRadius
+
+                    // Update Name
+                    const profileName = document.getElementById('profileName');
+                    profileName.textContent = data.name.text;
+                    // You can add more name parameters here, e.g., data.name.color, data.name.fontSize
+
+                    // Update Links
+                    const linksSection = document.getElementById('linksSection');
+                    linksSection.innerHTML = ''; // Clear existing links
+                    data.links.forEach(link => {
+                        const anchor = document.createElement('a');
+                        anchor.href = link.url;
+                        anchor.classList.add('link-item');
+                        
+                        if (link.icon) {
+                            const icon = document.createElement('i');
+                            icon.classList.add('fa-solid', link.icon); // Assumes Font Awesome Solid icons
+                            anchor.appendChild(icon);
+                        }
+                        
+                        anchor.appendChild(document.createTextNode(link.text));
+                        linksSection.appendChild(anchor);
+                    });
+
+                    // Update Description
+                    const profileDescription = document.getElementById('profileDescription');
+                    profileDescription.textContent = data.description.text;
+                    // You can add more description parameters here, e.g., data.description.color, data.description.lineHeight
+                })
+                .catch(error => {
+                    console.error('Error loading page data:', error);
+                    // Optionally display a fallback message or handle the error gracefully on the page
+                    document.getElementById('profileName').textContent = 'Error loading data.';
+                    document.getElementById('profileDescription').textContent = 'Please check the data.json file.';
+                });
+        });
+    </script>
 </body>
 </html>

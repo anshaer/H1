@@ -1,0 +1,147 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-image: url('背景1.jpg'); /* 設置背景圖片 */
+    background-size: cover; /* 讓背景圖片覆蓋整個視窗 */
+    background-position: center; /* 讓背景圖片居中 */
+    min-height: 100vh; /* 確保背景至少佔滿整個視窗高度 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; /* 增加一些內邊距，防止內容貼邊 */
+    box-sizing: border-box; /* 確保內邊距包含在寬度內 */
+}
+
+.container {
+    background-color: rgba(0, 0, 0, 0.7); /* 半透明背景，讓背景圖片可見 */
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white; /* 內容文字顏色 */
+    display: flex; /* 使用 Flexbox 布局 */
+    gap: 30px; /* 元素之間的間距 */
+    max-width: 1000px; /* 限制最大寬度，保持桌面排版良好 */
+    width: 100%; /* 讓容器在小螢幕上可以佔滿寬度 */
+}
+
+.photo-section {
+    /* 橫式畫面下，照片部分佔據左側 */
+    flex-shrink: 0; /* 防止照片縮小 */
+}
+
+.profile-photo {
+    width: 200px; /* 橫式畫面下照片的固定寬度 */
+    height: 200px; /* 橫式畫面下照片的固定高度 */
+    object-fit: cover; /* 確保圖片填充容器並保持比例 */
+    border-radius: 10px; /* 圓角照片 */
+    border: 3px solid #f0f0f0; /* 照片邊框 */
+}
+
+.content-section {
+    flex-grow: 1; /* 內容部分填充剩餘空間 */
+    display: flex;
+    flex-direction: column; /* 內容內部元素垂直排列 */
+    justify-content: space-between; /* 在內容部分內部元素之間平均分配空間 */
+}
+
+.name {
+    background-color: #FFD700; /* 名字的背景顏色 */
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px; /* 名字下方間距 */
+}
+
+.description {
+    background-color: #EE82EE; /* 敘述的背景顏色 */
+    color: #333;
+    padding: 15px;
+    border-radius: 8px;
+    line-height: 1.6;
+    flex-grow: 1; /* 敘述部分填充剩餘空間，防止被擠壓 */
+    margin-bottom: 20px; /* 敘述下方間距 */
+}
+
+.links-section {
+    background-color: #3CB371; /* 連結的背景顏色 */
+    padding: 10px 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap; /* 連結多時自動換行 */
+    justify-content: center; /* 連結居中顯示 */
+    gap: 15px; /* 連結之間的間距 */
+}
+
+.link-item {
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    border: 1px solid white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.link-item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ====== 手機直式畫面 (小於等於 768px 寬度) ====== */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* 將主容器改為垂直排列 */
+        align-items: center; /* 垂直居中 */
+        padding: 20px;
+        max-width: 90%; /* 在小螢幕上佔據更多寬度 */
+    }
+
+    .profile-photo {
+        width: 150px; /* 手機直式畫面下照片的寬度 */
+        height: 150px; /* 手機直式畫面下照片的高度 */
+        margin-bottom: 20px; /* 照片下方間距 */
+    }
+
+    .content-section {
+        width: 100%; /* 內容部分佔據全部寬度 */
+    }
+
+    .name,
+    .description,
+    .links-section {
+        width: auto; /* 讓這些元素自動適應內容區塊的寬度 */
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 15px; /* 調整手機模式下的間距 */
+    }
+
+    .name {
+        font-size: 1.8em;
+    }
+}
+
+/* 更小的手機橫式或極小螢幕 */
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    .name {
+        font-size: 1.5em;
+    }
+
+    .description {
+        font-size: 0.9em;
+    }
+
+    .links-section {
+        flex-direction: column; /* 連結也垂直排列 */
+        gap: 10px;
+    }
+
+    .link-item {
+        width: 80%; /* 連結佔據大部分寬度 */
+        text-align: center;
+        margin: 0 auto; /* 居中 */
+    }
+}
